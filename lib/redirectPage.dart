@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'localstorage.dart';
-import 'package:flutter_application_1/requests/auth_user.dart';
-import 'package:flutter_application_1/user/pages/authorisation_page.dart';
+import 'package:olympics_preparation_client/requests/auth_user.dart';
+import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
 
 
 class RedirectPage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_application_1/localstorage.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
 
 
 Future<Map<String, dynamic>> createUser(

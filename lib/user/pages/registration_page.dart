@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/user/pages/authorisation_page.dart';
-import 'package:flutter_application_1/user/pages/admin_registration_page.dart';
-import 'package:flutter_application_1/localstorage.dart';
-import 'package:flutter_application_1/requests/create_user.dart';
-import 'package:flutter_application_1/widgets/background.dart';
-import 'package:flutter_application_1/widgets/button.dart';
-import 'package:flutter_application_1/widgets/show_alert.dart';
+import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
+import 'package:olympics_preparation_client/user/pages/admin_registration_page.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
+import 'package:olympics_preparation_client/requests/create_user.dart';
+import 'package:olympics_preparation_client/widgets/background.dart';
+import 'package:olympics_preparation_client/widgets/button.dart';
+import 'package:olympics_preparation_client/widgets/show_alert.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});

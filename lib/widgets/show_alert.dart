@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/button.dart';
+import 'package:olympics_preparation_client/widgets/button.dart';
 
 void showIncorrectDataAlert(BuildContext context, [Widget title = const Text("Укажите правильные данные!")]) {
   showDialog(
