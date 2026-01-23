@@ -4,7 +4,7 @@ Widget button(Widget child, VoidCallback? func) {
   return ElevatedButton(
       onPressed: func,
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 233, 141, 133),
+        backgroundColor: const Color.fromARGB(255, 122, 185, 202),
           shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: const BorderSide(
