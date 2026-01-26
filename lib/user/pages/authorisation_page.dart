@@ -4,7 +4,6 @@ import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
-import 'package:olympics_preparation_client/root.dart';
 import 'package:olympics_preparation_client/user/pages/first_page.dart';
 import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
 
@@ -22,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
     Icon icon = const Icon(Icons.visibility_off);
     if (obscureText) {

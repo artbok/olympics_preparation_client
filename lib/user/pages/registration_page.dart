@@ -3,7 +3,6 @@ import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
 import 'package:olympics_preparation_client/user/pages/admin_registration_page.dart';
 import 'package:olympics_preparation_client/requests/create_user.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
-import 'package:olympics_preparation_client/root.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
 import 'package:olympics_preparation_client/user/pages/first_page.dart';
