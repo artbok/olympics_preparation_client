@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'localstorage.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
+import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
+import 'package:olympics_preparation_client/user/pages/first_page.dart';
+import 'package:olympics_preparation_client/root.dart';
 
 
 class RedirectPage extends StatelessWidget {
@@ -14,11 +17,11 @@ class RedirectPage extends StatelessWidget {
     if (username != null && password != null) {
       Map<String, dynamic> data = await authUser(username, password);
       if (data["status"] == 'ok') {
-        // if (data["rightsLevel"] == 1) {
-        //   return const UserStoragePage();
-        // } else {
-        //   return const StoragePage();
-        // }
+        if (data["rightsLevel"] == 1) {
+          return const FirstPage();
+        } else {
+          return const AdminFirstPage();
+        }
       }
     }
     return const LoginPage();
@@ -28,10 +31,8 @@ class RedirectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Управление спортивным инвентарем',
-        theme: ThemeData(
-          useMaterial3: true,
-        ),
+        title: 'Подготовка к олимпиадам',
+        
         debugShowCheckedModeBanner: false,
         home: FutureBuilder(
           future: checkAuth(),

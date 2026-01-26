@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
 import 'package:olympics_preparation_client/user/pages/admin_registration_page.dart';
 import 'package:olympics_preparation_client/requests/create_user.dart';
-import 'package:olympics_preparation_client/widgets/background.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
-import 'package:olympics_preparation_client/widgets/root.dart';
+import 'package:olympics_preparation_client/root.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
+import 'package:olympics_preparation_client/widgets/show_alert.dart';
+import 'package:olympics_preparation_client/user/pages/first_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -27,9 +29,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (obscureText) {
       icon = const Icon(Icons.visibility);
     }
-
     return Scaffold(
-      backgroundColor: colors.secondary,
+      backgroundColor: colors.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,24 +118,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     1,
                   );
                   setState(() {
-                    // if (data["status"] == "ok") {
-                    //   putToTheStorage("username", username);
-                    //   putToTheStorage("password", password);
-                    //   Navigator.pushReplacement(
-                    //     context,
-                    //     PageRouteBuilder(
-                    //       pageBuilder: (context, animation1, animation2) =>
-                    //           const UserStoragePage(),
-                    //       transitionDuration: Duration.zero,
-                    //       reverseTransitionDuration: Duration.zero,
-                    //     ),
-                    //   );
-                    // } else {
-                    //   showIncorrectDataAlert(
-                    //       context,
-                    //       const Text(
-                    //           "Пользователь с таким именем уже существует"));
-                    // }
+                    if (data["status"] == "ok") {
+                      putToTheStorage("username", username);
+                      putToTheStorage("password", password);
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              const FirstPage(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    } else {
+                      showIncorrectDataAlert(
+                          context,
+                          const Text(
+                              "Пользователь с таким именем уже существует"));
+                    }
                   });
                 },
               ),

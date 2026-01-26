@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/user/pages/registration_page.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
-import 'package:olympics_preparation_client/widgets/background.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
-import 'package:olympics_preparation_client/widgets/root.dart';
+import 'package:olympics_preparation_client/root.dart';
+import 'package:olympics_preparation_client/user/pages/first_page.dart';
+import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       icon = const Icon(Icons.visibility);
     }
     return Scaffold(
-      backgroundColor: colors.secondary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,27 +79,27 @@ class _LoginPageState extends State<LoginPage> {
                 if (data["status"] == 'ok') {
                   putToTheStorage("username", username);
                   putToTheStorage('password', password);
-                  // if (data["rightsLevel"] == 1) {
-                  //   Navigator.pushReplacement(
-                  //     context,
-                  //     PageRouteBuilder(
-                  //       pageBuilder: (context, animation1, animation2) =>
-                  //           const UserStoragePage(),
-                  //       transitionDuration: Duration.zero,
-                  //       reverseTransitionDuration: Duration.zero,
-                  //     ),
-                  //   );
-                  // } else {
-                  //   Navigator.pushReplacement(
-                  //     context,
-                  //     PageRouteBuilder(
-                  //       pageBuilder: (context, animation1, animation2) =>
-                  //           const StoragePage(),
-                  //       transitionDuration: Duration.zero,
-                  //       reverseTransitionDuration: Duration.zero,
-                  //     ),
-                  //   );
-                  // }
+                  if (data["rightsLevel"] == 1) {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            const FirstPage(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
+                  } else {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            const AdminFirstPage(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
+                  }
                 } else {
                   showIncorrectDataAlert(
                     context,

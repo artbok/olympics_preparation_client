@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
 import 'package:olympics_preparation_client/requests/create_user.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
+import 'package:olympics_preparation_client/widgets/show_alert.dart';
+import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
+
 
 class AdminRegistrationPage extends StatefulWidget {
   const AdminRegistrationPage({super.key});
@@ -26,7 +30,7 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
     }
 
     return Scaffold(
-      backgroundColor: colors.secondary,
+      backgroundColor: colors.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,24 +111,24 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                   2,
                 );
                 setState(() {
-                  // if (data["status"] == 'ok') {
-                  //   putToTheStorage("username", username);
-                  //   putToTheStorage('password', password);
-                  //   Navigator.pushReplacement(
-                  //     context,
-                  //     PageRouteBuilder(
-                  //       pageBuilder: (context, animation1, animation2) =>
-                  //           const StoragePage(),
-                  //       transitionDuration: Duration.zero,
-                  //       reverseTransitionDuration: Duration.zero,
-                  //     ),
-                  //   );
-                  // } else {  
-                  //   showIncorrectDataAlert(
-                  //       context,
-                  //       const Text(
-                  //           "Пользователь с таким именем уже существует"));
-                  // }
+                  if (data["status"] == 'ok') {
+                    putToTheStorage("username", username);
+                    putToTheStorage('password', password);
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            const AdminFirstPage(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
+                  } else {  
+                    showIncorrectDataAlert(
+                        context,
+                        const Text(
+                            "Пользователь с таким именем уже существует"));
+                  }
                 });
               },
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:olympics_preparation_client/user/pages/registration_page.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
-
+import 'package:olympics_preparation_client/user/pages/first_page.dart';
+import 'package:olympics_preparation_client/requests/auth_user.dart';
 
 class Root extends StatelessWidget {
   const Root({super.key});
@@ -9,6 +11,8 @@ class Root extends StatelessWidget {
   Widget build(BuildContext context) {
     String? email = getValue("email");
     String? password = getValue("password");
+    print(email);
+    print(password);
     const Color backgroundColor = Color.fromRGBO(24, 45, 85, 1);
     const Color surface = Color.fromRGBO(36, 55, 94, 1);
     const Color primary = Color.fromRGBO(109, 224, 255, 1);
@@ -108,7 +112,32 @@ class Root extends StatelessWidget {
       
       debugShowCheckedModeBanner: false,
 
-      
+      // if a == 2:
+      //    print(1232344)
+      // else:
+      //    print(234324324)
+      // (a==2) ? print(1234) : print(234e34534)
+      // if 
+      home:
+          (email != null && password != null)
+              ? FutureBuilder(
+                future: authUser(email, password),
+                builder: (
+                  BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot
+                ) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    if (snapshot.data! == "AUTHORIZED") {
+                      return FirstPage();
+                    }
+                    return RegistrationPage();
+                  } 
+                },
+              )
+              : RegistrationPage(),
     );
   }
 }
