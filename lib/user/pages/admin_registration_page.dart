@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
-import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/create_user.dart';
-import 'package:olympics_preparation_client/widgets/background.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
+import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
+
 
 class AdminRegistrationPage extends StatefulWidget {
   const AdminRegistrationPage({super.key});
@@ -21,35 +22,25 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final textThemes = Theme.of(context).textTheme;
     Icon icon = const Icon(Icons.visibility_off);
     if (obscureText) {
       icon = const Icon(Icons.visibility);
     }
 
     return Scaffold(
-        body: background1(
-      Center(
+      backgroundColor: colors.surface,
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            const Flexible(
-              child: Text(
-                "Регистрация для администратора",
-                style: TextStyle(
-                  fontSize: 40,
-                ),
-              ),
+            Text(
+              "Регистрация для администратора",
+              style: textThemes.titleLarge,
             ),
             Expanded(flex: 2, child: Container()),
-            const Flexible(
-              child: Text(
-                "Имя пользователя",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            Text("Имя пользователя", style: textThemes.bodyLarge),
             Flexible(
               flex: 2,
               child: Row(
@@ -62,31 +53,25 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                       controller: usernameController,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  Flexible(flex: 2, child: Container())
+                  Flexible(flex: 2, child: Container()),
                 ],
               ),
             ),
-            const Flexible(
-              flex: 1,
-              child: Text("Пароль",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
+            Text("Пароль", style: textThemes.bodyLarge),
+
             Flexible(
               flex: 2,
               child: Row(
                 children: [
-                  Flexible(
-                    flex: 2,
-                    child: Container(),
-                  ),
+                  Flexible(flex: 2, child: Container()),
                   Flexible(
                     flex: 1,
                     child: TextFormField(
@@ -95,82 +80,79 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                       obscureText: obscureText,
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
-                            icon: icon,
-                            onPressed: () {
-                              setState(() {
-                                obscureText = !obscureText;
-                              });
-                            }),
+                          icon: icon,
+                          onPressed: () {
+                            setState(() {
+                              obscureText = !obscureText;
+                            });
+                          },
+                        ),
                         border: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  Flexible(
-                    flex: 2,
-                    child: Container(),
-                  ),
+                  Flexible(flex: 2, child: Container()),
                 ],
               ),
             ),
-            Flexible(
-                flex: 1,
-                child: button(
-                  const Text("Зарегистроваться",
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                  () async {
-                    String username = usernameController.text;
-                    String password = passwordController.text;
-                    Map<String, dynamic> data =
-                        await createUser(username, password, 2);
-                    setState(() {
-                      // if (data["status"] == 'ok') {
-                      //   putToTheStorage("username", username);
-                      //   putToTheStorage('password', password);
-                      //   Navigator.pushReplacement(
-                      //     context,
-                      //     PageRouteBuilder(
-                      //       pageBuilder: (context, animation1, animation2) =>
-                      //           const StoragePage(),
-                      //       transitionDuration: Duration.zero,
-                      //       reverseTransitionDuration: Duration.zero,
-                      //     ),
-                      //   );
-                      // } else {
-                      //   showIncorrectDataAlert(
-                      //       context,
-                      //       const Text(
-                      //           "Пользователь с таким именем уже существует"));
-                      // }
-                    });
-                  },
-                )),
-            Flexible(
-                flex: 1,
-                child: InkWell(
-                  child: const Text(
-                    "Уже есть аккаунт?",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  onTap: () => {
+            button(
+              Text("Зарегистроваться", style: textThemes.titleLarge),
+              () async {
+                String username = usernameController.text;
+                String password = passwordController.text;
+                Map<String, dynamic> data = await createUser(
+                  username,
+                  password,
+                  2,
+                );
+                setState(() {
+                  if (data["status"] == 'ok') {
+                    putToTheStorage("username", username);
+                    putToTheStorage('password', password);
                     Navigator.pushReplacement(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            const LoginPage(),
+                            const AdminFirstPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
-                    )
-                  },
-                )),
+                    );
+                  } else {  
+                    showIncorrectDataAlert(
+                        context,
+                        const Text(
+                            "Пользователь с таким именем уже существует"));
+                  }
+                });
+              },
+            ),
+            Flexible(
+              flex: 5,
+              child: InkWell(
+                child: Text("Уже есть аккаунт?", style: textThemes.titleLarge),
+                onTap: () => {
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          const LoginPage(),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    ),
+                  ),
+                },
+              ),
+            ),
             Flexible(flex: 2, child: Container()),
           ],
         ),
       ),
-    ));
+    );
   }
 }
