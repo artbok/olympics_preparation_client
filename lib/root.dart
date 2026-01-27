@@ -11,8 +11,6 @@ class Root extends StatelessWidget {
   Widget build(BuildContext context) {
     String? email = getValue("email");
     String? password = getValue("password");
-    print(email);
-    print(password);
     const Color backgroundColor = Color.fromRGBO(24, 45, 85, 1);
     const Color surface = Color.fromRGBO(36, 55, 94, 1);
     const Color primary = Color.fromRGBO(109, 224, 255, 1);

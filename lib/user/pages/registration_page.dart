@@ -29,7 +29,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       icon = const Icon(Icons.visibility);
     }
     return Scaffold(
-      backgroundColor: colors.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +40,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Expanded(flex: 2, child: Container()),
             Flexible(
               flex: 1,
-              child: Text("Имя пользователя", style: textThemes.bodyLarge),
+              child: Text("Имя пользователя", style: textThemes.bodyMedium),
             ),
             Flexible(
               flex: 2,
@@ -51,7 +50,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
-                      maxLength: 16,
                       controller: usernameController,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(
@@ -69,7 +67,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             Flexible(
               flex: 1,
-              child: Text("Пароль", style: textThemes.bodyLarge),
+              child: Text("Пароль", style: textThemes.bodyMedium),
             ),
             Flexible(
               flex: 2,
@@ -79,7 +77,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
-                      maxLength: 20,
                       controller: passwordController,
                       obscureText: obscureText,
                       decoration: InputDecoration(
@@ -107,7 +104,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Flexible(
               flex: 1,
               child: button(
-                Text("Зарегистрироваться", style: textThemes.bodyLarge),
+                Text("Зарегистрироваться", style: textThemes.bodyMedium),
                 () async {
                   String username = usernameController.text;
                   String password = passwordController.text;
@@ -142,7 +139,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Flexible(
               flex: 1,
               child: InkWell(
-                child: Text("Уже есть аккаунт?", style: textThemes.titleLarge),
+                child: Text("Уже есть аккаунт?", style: textThemes.bodyLarge),
                 onTap: () => {
                   Navigator.pushReplacement(
                     context,
@@ -174,7 +171,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   },
                   child: Text(
                     "Регистрация для админов",
-                    style: textThemes.titleLarge,
+                    style: textThemes.bodyLarge,
                   ),
                 ),
               ),

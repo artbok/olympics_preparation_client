@@ -32,11 +32,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text("Авторизация", style: textThemes.titleLarge),
-            Text("Имя пользователя", style: textThemes.bodyLarge),
+            Text("Имя пользователя", style: textThemes.bodyMedium),
             SizedBox(
               width: 300,
               child: TextFormField(
-                maxLength: 16,
                 controller: usernameController,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(
@@ -45,12 +44,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Text("Пароль", style: textThemes.bodyLarge),
-            Container(),
+            Text("Пароль", style: textThemes.bodyMedium),
+            // Container(),
             SizedBox(
               width: 300,
               child: TextFormField(
-                maxLength: 20,
                 controller: passwordController,
                 obscureText: obscureText,
                 decoration: InputDecoration(
@@ -68,8 +66,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Container(),
-            button(Text("Войти", style: textThemes.titleLarge), () async {
+            // Container(),
+            button(Text("Войти", style: textThemes.bodyLarge), () async {
               String username = usernameController.text;
               String password = passwordController.text;
               Map<String, dynamic> data = await authUser(username, password);
@@ -109,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
               });
             }),
             InkWell(
-              child: Text("Нет аккаунта?", style: textThemes.titleLarge),
+              child: Text("Нет аккаунта?", style: textThemes.bodyLarge),
               onTap: () => {
                 Navigator.pushReplacement(
                   context,

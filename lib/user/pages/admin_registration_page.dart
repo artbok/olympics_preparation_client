@@ -30,7 +30,6 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
     }
 
     return Scaffold(
-      backgroundColor: colors.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +39,7 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
               style: textThemes.titleLarge,
             ),
             Expanded(flex: 2, child: Container()),
-            Text("Имя пользователя", style: textThemes.bodyLarge),
+            Text("Имя пользователя", style: textThemes.bodyMedium),
             Flexible(
               flex: 2,
               child: Row(
@@ -49,7 +48,6 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
-                      maxLength: 16,
                       controller: usernameController,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(
@@ -65,7 +63,7 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                 ],
               ),
             ),
-            Text("Пароль", style: textThemes.bodyLarge),
+            Text("Пароль", style: textThemes.bodyMedium),
 
             Flexible(
               flex: 2,
@@ -75,7 +73,6 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
-                      maxLength: 20,
                       controller: passwordController,
                       obscureText: obscureText,
                       decoration: InputDecoration(
@@ -101,7 +98,7 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
               ),
             ),
             button(
-              Text("Зарегистроваться", style: textThemes.titleLarge),
+              Text("Зарегистроваться", style: textThemes.bodyMedium),
               () async {
                 String username = usernameController.text;
                 String password = passwordController.text;
@@ -135,7 +132,7 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
             Flexible(
               flex: 5,
               child: InkWell(
-                child: Text("Уже есть аккаунт?", style: textThemes.titleLarge),
+                child: Text("Уже есть аккаунт?", style: textThemes.bodyLarge),
                 onTap: () => {
                   Navigator.pushReplacement(
                     context,
