@@ -23,6 +23,7 @@ windows/
 .metadata
 flutter_application_1.iml
 analysis_options.yaml
+pubspec.lock
 # IntelliJ related
 *.iml
 *.ipr
