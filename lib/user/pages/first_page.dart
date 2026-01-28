@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/root.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});

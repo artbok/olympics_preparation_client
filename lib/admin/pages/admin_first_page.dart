@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/root.dart';
 
 class AdminFirstPage extends StatefulWidget {
   const AdminFirstPage({super.key});
