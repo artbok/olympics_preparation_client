@@ -3,6 +3,7 @@ import 'package:olympics_preparation_client/user/pages/registration_page.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/user/pages/first_page.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
+import 'package:olympics_preparation_client/user/pages/user_tasks_page.dart';
 
 class Root extends StatelessWidget {
   const Root({super.key});
