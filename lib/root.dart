@@ -135,7 +135,7 @@ class Root extends StatelessWidget {
                   } 
                 },
               )
-              : RegistrationPage(),
+              : FirstPage(),
     );
   }
 }
