@@ -15,15 +15,15 @@ class _UserTasksPage extends State<UserTasksPage>{
   int currentPage = 1;
   int totalPages = 0;
   Widget getItemWidget(
-    String id, String description, String subject, String difficulty, BuildContext context){
+    String id, String description, String subject, String difficulty, String? hint, String answer, BuildContext context){
         final colors = Theme.of(context).colorScheme;
         return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: InkWell(
                 onTap: () => {
-                  Navigator.pushReplacement(
-                  context, 
-                  PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => const LoginPage(),transitionDuration: Duration.zero, reverseTransitionDuration: Duration.zero))},
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SolvePage(id: id, description: description, subject: subject, difficulty: difficulty, hint: hint ?? "Подсказки нет", answer: answer,)))
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: colors.secondary,
@@ -118,14 +118,21 @@ class _UserTasksPage extends State<UserTasksPage>{
             future: () async {
               List <Map<String, String>>h = [{"id":"2", 
               "description":"bebradcdcydtcyryttytytytyeyeyycrbebrafguybregbrebgkycrbgribguggibbuggubgbugbuggybuuybygubuufyfbugugnunoi", 
-              "subject":"bebrast", 
-              "difficulty":"Сложный"}, {"id":"3", 
+              "subject":"bebrast",
+              "hint": "faaa", 
+              "difficulty":"Сложный",
+              "answer":"1234"
+              }, {"id":"3", 
               "description":"cf gjj fegueehi ulhhfbhjffffffffnhewwwd,;leeeecfiuon; ffffegu gutgyrtdgjuyrhtgrwrtyuio;lkjhgfds.,mnbvcxpoiuytubgyr", 
-              "subject":"brbbrb", 
-              "difficulty":"Средний"},{"id":"1", 
+              "subject":"brbbrb",
+              "hint": "pepe", 
+              "difficulty":"Средний",
+              "answer":"1234"
+              },{"id":"1", 
               "description":"fwe", 
               "subject":"bebrast", 
-              "difficulty":"Простой"}];
+              "difficulty":"Простой",
+              "answer":"1234"}];
               return h;
             }(),
             builder: (context, snapshot) {
@@ -143,7 +150,10 @@ class _UserTasksPage extends State<UserTasksPage>{
                     data[i]["id"],
                     data[i]["description"]!,
                     data[i]["subject"]!,
-                    data[i]["difficulty"], context));
+                    data[i]["difficulty"], 
+                    data[i]["hint"],
+                    data[i]["answer"],
+                    context));
             }
                 if (items.isEmpty) {
                   return const Center(
