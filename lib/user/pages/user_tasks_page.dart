@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
+import 'package:olympics_preparation_client/user/pages/solve_page.dart';
 
 
 class UserTasksPage extends StatefulWidget {
@@ -35,15 +36,9 @@ class _UserTasksPage extends State<UserTasksPage> {
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       child: InkWell(
         onTap: () => {
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const LoginPage(),
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-            ),
-          ),
+          Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SolvePage(id: id, description: description, subject: subject, difficulty: difficulty, hint: hint ?? "Подсказки нет", answer: answer,)))
+                
         },
         child: Container(
           decoration: BoxDecoration(
