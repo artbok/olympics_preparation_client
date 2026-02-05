@@ -43,7 +43,7 @@ class _SolvePage extends State<SolvePage> {
       return;
     }
     if (widget.answer == answer){
-      buttonText = "Ответ принят";
+      buttonText = "Отправить";
       setState(() {
         
       });
