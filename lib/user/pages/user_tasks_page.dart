@@ -28,7 +28,9 @@ class _UserTasksPage extends State<UserTasksPage> {
     String description,
     String subject,
     String difficulty,
-    String Topic,
+    String? hint,
+    String answer,
+    String topic,
     BuildContext context,
   ) {
     final colors = Theme.of(context).colorScheme;
@@ -248,23 +250,28 @@ class _UserTasksPage extends State<UserTasksPage> {
               "description":
                   "bebradcdcydtcyryttytytytyeyeyycrbebrafguybregbrebgkycrbgribguggibbuggubgbugbuggybuuybygubuufyfbugugnunoi",
               "subject": "bebrast",
+              "topic": "gegweg",
+              "hint": "faaa",
               "difficulty": "Сложный",
-              "topic": "uy",
+              "answer": "1234",
             },
             {
               "id": "3",
               "description":
                   "cf gjj fegueehi ulhhfbhjffffffffnhewwwd,;leeeecfiuon; ffffegu gutgyrtdgjuyrhtgrwrtyuio;lkjhgfds.,mnbvcxpoiuytubgyr",
               "subject": "brbbrb",
+              "topic": "gegweg",
+              "hint": "pepe",
               "difficulty": "Средний",
-              "topic": "bebra",
+              "answer": "1234",
             },
             {
               "id": "1",
               "description": "fwe",
+              "topic": "gegweg",
               "subject": "bebrast",
               "difficulty": "Простой",
-              "topic": "brrbrbrbb",
+              "answer": "1234",
             },
           ];
           return h;
@@ -278,14 +285,15 @@ class _UserTasksPage extends State<UserTasksPage> {
             totalPages = 10;
             data = snapshot.data!;
             List<Widget> items = [];
-            print(data.toString());
             for (int i = 0; i < data.length; i++) {
               items.add(
                 getItemWidget(
-                  data[i]["id"],
+                  data[i]["id"]!,
                   data[i]["description"]!,
                   data[i]["subject"]!,
-                  data[i]["difficulty"],
+                  data[i]["difficulty"]!,
+                  data[i]["hint"],
+                  data[i]["answer"],
                   data[i]["topic"],
                   context,
                 ),
