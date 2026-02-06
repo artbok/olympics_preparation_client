@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
+import 'package:olympics_preparation_client/widgets/user_navigation.dart';
 import 'package:olympics_preparation_client/user/pages/solve_page.dart';
 
 
@@ -237,12 +238,12 @@ class _UserTasksPage extends State<UserTasksPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_alt,),
             onPressed: () => filterdialog(context),
           ),
         ],
       ),
-      body: FutureBuilder(
+      body: scaffoldWithUserNavigation(0, context, FutureBuilder(
         future: () async {
           List<Map<String, String>> h = [
             {
@@ -326,7 +327,7 @@ class _UserTasksPage extends State<UserTasksPage> {
             );
           }
         },
-      ),
+      ),)
     );
   }
 }
