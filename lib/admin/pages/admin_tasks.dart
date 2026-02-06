@@ -4,20 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
-class TaskUploaderApp extends StatelessWidget {
-  const TaskUploaderApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Загрузчик задач',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const UploadPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
 class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
 
@@ -27,7 +13,6 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   bool _isLoading = false;
-
 
   static const String SERVER_URL = 'http://127.0.0.1:5000/upload';
 
@@ -47,7 +32,7 @@ class _UploadPageState extends State<UploadPage> {
       }
 
       PlatformFile file = result.files.first;
-      
+
       if (file.size != null && file.size! > 1024 * 1024) {
         _showMessage('Файл слишком большой (макс. 1 МБ)', isError: true);
         return;
@@ -70,11 +55,13 @@ class _UploadPageState extends State<UploadPage> {
         throw FormatException('Невалидный JSON: ${e.toString()}');
       }
 
-      final response = await http.post(
-        Uri.parse(SERVER_URL),
-        headers: {'Content-Type': 'application/json; charset=utf-8'},
-        body: jsonString,
-      ).timeout(const Duration(seconds: 15));
+      final response = await http
+          .post(
+            Uri.parse(SERVER_URL),
+            headers: {'Content-Type': 'application/json; charset=utf-8'},
+            body: jsonString,
+          )
+          .timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         _showMessage('✅ Задача успешно добавлена!', isError: false);
@@ -101,7 +88,7 @@ class _UploadPageState extends State<UploadPage> {
 
   void _showMessage(String message, {required bool isError}) {
     if (!mounted) return;
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -126,7 +113,10 @@ class _UploadPageState extends State<UploadPage> {
     final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Загрузчик задач')),
+      appBar: AppBar(
+        title: const Text('Загрузчик задач'),
+        titleTextStyle: textThemes.bodyLarge,
+      ),
       body: Center(
         child: SizedBox(
           width: 280,
@@ -135,7 +125,9 @@ class _UploadPageState extends State<UploadPage> {
             children: [
               Card(
                 elevation: 4,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -161,21 +153,36 @@ class _UploadPageState extends State<UploadPage> {
                                 width: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color.fromARGB(255, 226, 226, 226),
+                                  ),
                                 ),
                               )
                             : const Icon(Icons.file_upload, size: 24),
-                        label: Text(_isLoading ? 'Отправка...' : 'Выбрать файл'),
+                        label: Text(
+                          _isLoading ? 'Отправка...' : 'Выбрать файл',
+                        ),
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
-                          textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 18,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                       if (_isLoading) ...[
                         const SizedBox(height: 16),
                         LinearProgressIndicator(
-                          backgroundColor: Colors.grey.shade200,
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            220,
+                            220,
+                            220,
+                          ),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             Theme.of(context).colorScheme.primary,
                           ),

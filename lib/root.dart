@@ -138,7 +138,7 @@ class Root extends StatelessWidget {
                   } 
                 },
               )
-              : TaskUploaderApp(),
+              : UploadPage(),
     );
   }
 }
