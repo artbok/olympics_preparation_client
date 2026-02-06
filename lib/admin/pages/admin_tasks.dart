@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(const TaskUploaderApp());
-
 class TaskUploaderApp extends StatelessWidget {
   const TaskUploaderApp({super.key});
 
@@ -125,6 +123,8 @@ class _UploadPageState extends State<UploadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final textThemes = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(title: const Text('Загрузчик задач')),
       body: Center(
@@ -150,7 +150,7 @@ class _UploadPageState extends State<UploadPage> {
                       Text(
                         'Загрузите JSON-файл с задачей',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: textThemes.bodyLarge,
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
