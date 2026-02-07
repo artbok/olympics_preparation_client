@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:olympics_preparation_client/user/pages/duels/matchmaking_page.dart';
 import 'package:olympics_preparation_client/user/pages/registration_page.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
@@ -80,14 +81,14 @@ class _LoginPageState extends State<LoginPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            const FirstPage(),
+                            const MatchmakingPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
                     );
                   } else {
                     Navigator.pushReplacement(
-                      context,  
+                      context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
                             const AdminFirstPage(),

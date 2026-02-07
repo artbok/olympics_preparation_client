@@ -27,7 +27,6 @@ class _SolvePage extends State<SolvePage> {
   bool _showHint = false;
   String buttonText = "Отправить";
 
-
   @override
   void dispose() {
     _answerController.dispose();
@@ -37,38 +36,31 @@ class _SolvePage extends State<SolvePage> {
   void _checkAnswer() {
     String answer = _answerController.text.trim();
     if (answer.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите ответ!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Введите ответ!')));
       return;
     }
-    if (widget.answer == answer){
+    if (widget.answer == answer) {
       buttonText = "Отправить";
-      setState(() {
-        
-      });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Ваш ответ: $answer - верный')),
-    );
-  }
-  else {
-    buttonText = "Изменить ответ";
-    setState(() {
-      
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Ваш ответ: $answer - неверный'))
-  );
-  return;
-  }
+      setState(() {});
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Ваш ответ: $answer - верный')));
+    } else {
+      buttonText = "Изменить ответ";
+      setState(() {});
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Ваш ответ: $answer - неверный')));
+      return;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Задание #${widget.id}'),
-      ),
+      appBar: AppBar(title: Text('Задание #${widget.id}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -94,16 +86,22 @@ class _SolvePage extends State<SolvePage> {
               children: [
                 Icon(
                   Icons.bolt,
-                  color: widget.difficulty == 'Сложный' ? Colors.red :
-                         widget.difficulty == 'Средний' ? Colors.orange : Colors.green,
+                  color: widget.difficulty == 'Сложный'
+                      ? Colors.red
+                      : widget.difficulty == 'Средний'
+                      ? Colors.orange
+                      : Colors.green,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   'Сложность: ${widget.difficulty}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: widget.difficulty == 'Сложный' ? Colors.red :
-                           widget.difficulty == 'Средний' ? Colors.orange : Colors.green,
+                    color: widget.difficulty == 'Сложный'
+                        ? Colors.red
+                        : widget.difficulty == 'Средний'
+                        ? Colors.orange
+                        : Colors.green,
                     fontSize: 16,
                   ),
                 ),
@@ -122,26 +120,33 @@ class _SolvePage extends State<SolvePage> {
             const SizedBox(height: 24),
             Row(
               children: [
-                IconButton(
-                  icon: Icon(
+                InkWell(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
                     _showHint ? Icons.lightbulb : Icons.lightbulb_outline,
                     color: Colors.amber.shade800,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _showHint = !_showHint;
-                    });
-                  },
-                ),
-                Text(
-                  _showHint ? 'Скрыть подсказку' : 'Показать подсказку',
-                  style: const TextStyle(
-                    color: Colors.amber,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+                  Text(
+                    _showHint ? 'Скрыть подсказку' : 'Показать подсказку',
+                    style: const TextStyle(
+                      color: Colors.amber,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
+                  
+                ],
+              ),
+              onTap: () {
+                setState(() {
+                  _showHint = !_showHint;
+                });
+              },
             ),
+            Expanded(child: Container())
+            ]),
+            
             if (_showHint) ...[
               const SizedBox(height: 8),
               Container(
@@ -160,8 +165,7 @@ class _SolvePage extends State<SolvePage> {
               ),
               const SizedBox(height: 24),
             ],
-
-            const Text(
+          const Text(
               'Ваш ответ:',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
@@ -191,8 +195,7 @@ class _SolvePage extends State<SolvePage> {
                 child: Text(buttonText,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ),
-            ),
+              ),)
           ],
         ),
       ),

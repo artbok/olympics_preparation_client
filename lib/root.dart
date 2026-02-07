@@ -4,15 +4,14 @@ import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/user/pages/first_page.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/user/pages/user_tasks_page.dart';
-import 'package:olympics_preparation_client/admin/pages/admin_tasks.dart';
-
+import 'package:olympics_preparation_client/user/pages/duels/matchmaking_page.dart';
 
 class Root extends StatelessWidget {
   const Root({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String? email = getValue("email");
+    String? username = getValue("username");
     String? password = getValue("password");
     const Color backgroundColor = Color.fromRGBO(24, 45, 85, 1);
     const Color surface = Color.fromRGBO(36, 55, 94, 1);
@@ -20,7 +19,7 @@ class Root extends StatelessWidget {
     const Color secondary = Colors.blueGrey;
 
     return MaterialApp(
-      title: 'WortZap',
+      title: 'Olympics Preparation',
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: backgroundColor,
@@ -88,10 +87,7 @@ class Root extends StatelessWidget {
             if (states.contains(WidgetState.selected)) {
               return const IconThemeData(color: Colors.white, size: 26.0);
             }
-            return const IconThemeData(
-              color: Colors.white,
-              size: 24.0,
-            );
+            return const IconThemeData(color: Colors.white, size: 24.0);
           }),
         ),
         textTheme: TextTheme(
@@ -101,44 +97,45 @@ class Root extends StatelessWidget {
           labelLarge: TextStyle(color: primary, fontSize: 24),
           labelMedium: TextStyle(color: primary, fontSize: 18),
           labelSmall: TextStyle(color: primary, fontSize: 16),
-          titleLarge: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
-          titleMedium: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),
-          titleSmall: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(
+            color: Colors.white,
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+          ),
+          titleMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+          titleSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        iconTheme: IconThemeData(
-          color: Colors.white,
-          size: 30
-        )
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
-      
+
       debugShowCheckedModeBanner: false,
 
-      // if a == 2:
-      //    print(1232344)
-      // else:
-      //    print(234324324)
-      // (a==2) ? print(1234) : print(234e34534)
-      // if 
-      home:
-          (email != null && password != null)
-              ? FutureBuilder(
-                future: authUser(email, password),
-                builder: (
-                  BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot
-                ) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    if (snapshot.data! == "AUTHORIZED") {
-                      return FirstPage();
-                    }
-                    return RegistrationPage();
-                  } 
-                },
-              )
-              : UploadPage(),
+      home: (username != null && password != null)
+          ? FutureBuilder(
+              future: authUser(username, password),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  if (snapshot.data!["status"] == "ok") {
+                    print("duel");
+                    return MatchmakingPage();
+                  }
+                  return RegistrationPage();
+                }
+              },
+            )
+          : UserTasksPage(),
     );
   }
 }
