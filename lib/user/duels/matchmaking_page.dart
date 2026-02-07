@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'dart:ui';
-import 'package:olympics_preparation_client/requests/get_elo_request.dart';
+import 'package:olympics_preparation_client/requests/get_rating.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
-import 'package:olympics_preparation_client/user/pages/duels/finding_match_dialog.dart';
+import 'package:olympics_preparation_client/user/duels/finding_match_dialog.dart';
 import 'package:olympics_preparation_client/services/socket_service.dart';
-import 'package:olympics_preparation_client/user/pages/duels/duel_page.dart';
+import 'package:olympics_preparation_client/user/duels/duel_page.dart';
 
 class MatchmakingPage extends StatefulWidget {
   const MatchmakingPage({super.key});

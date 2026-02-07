@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
+import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
-import 'package:olympics_preparation_client/user/pages/solve_page.dart';
+import 'package:olympics_preparation_client/user/solving_page.dart';
 
 
 class UserTasksPage extends StatefulWidget {
