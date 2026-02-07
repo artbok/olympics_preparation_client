@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 class SolvePage extends StatefulWidget {
-  final String id;
+  final int id;
   final String description;
   final String subject;
   final String difficulty;
