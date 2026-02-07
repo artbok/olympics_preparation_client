@@ -3,6 +3,8 @@ import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/user/user_tasks_page.dart';
+import 'package:olympics_preparation_client/user/ai_page.dart';
+import 'package:olympics_preparation_client/user/result_duel_page.dart';
 
 class Root extends StatelessWidget {
   const Root({super.key});
@@ -132,7 +134,9 @@ class Root extends StatelessWidget {
                 }
               },
             )
-          : LoginPage(),
+          : DuelResultPage(outcome: MatchOutcome.win,
+      rating: 1520,
+      ratingDelta: 24,),
     );
   }
 }
