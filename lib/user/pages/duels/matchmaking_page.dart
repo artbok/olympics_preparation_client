@@ -27,7 +27,7 @@ class MatchmakingPageState extends State<MatchmakingPage> {
 
   Future<void> fetchData() async {
     try {
-      int elo = await getElo(username);
+      int elo = await getRating(username);
       if (mounted) {
         setState(() {
           rating = elo;
@@ -89,20 +89,20 @@ class MatchmakingPageState extends State<MatchmakingPage> {
                       barrierDismissible: false,
                       builder: (context) {
                         return ValueListenableBuilder(
-                          valueListenable: socketService.notifier,
+                          valueListenable: socketService.matchmakingNotifier,
                           builder: (context, val, child) {
-                            if (val != null && val["page"] == "game_page") {
+                            if (val != null && val["code"] == "match_found") {
                               Widget page = DuelPage(
+                                duelName: val["duelName"],
                                 username: username,
                                 userRating: rating,
-                                opponent: val["opponent"],
-                                opponentRating: val["rating"],
-
+                                opponent: val["opponent"]["name"],
+                                opponentRating: val["opponent"]["rating"],
                               );
-                              socketService.notifier.value = null;
+                              socketService.matchmakingNotifier.value = null;
                               return page;
                             }
-                            return FindingMatchDialog(colors: colors);
+                            return FindingMatchDialog();
                           },
                         );
                       },

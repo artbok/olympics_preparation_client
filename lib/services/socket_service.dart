@@ -10,7 +10,9 @@ class SocketService {
   SocketService._internal();
 
   late Socket socket;
-  final ValueNotifier<Map<String, dynamic>?> notifier =
+  final ValueNotifier<Map<String, dynamic>?> matchmakingNotifier =
+      ValueNotifier<Map<String, dynamic>?>(null);
+  final ValueNotifier<Map<String, dynamic>?> duelNotifier =
       ValueNotifier<Map<String, dynamic>?>(null);
   void connectToServer(String username) {
     socket = io(
@@ -25,24 +27,13 @@ class SocketService {
     });
     socket.on("matchmaking_$username", (data) {
       print("что то пришло");
-      switch (data["code"]) {
-        case "match_found":
-          {
-            notifier.value = {
-              "page": "game_page",
-              "opponent": data["opponent"]["name"],
-              "rating": data["opponent"]["rating"],
-            };
-          }
-      }
+      matchmakingNotifier.value = data;
     });
   }
 
   void connectToDuel(String duelName) {
     socket.on(duelName, (data) {
-      // startRound
-      // answer
-      // 
+      duelNotifier.value = data;
     });
   }
 
