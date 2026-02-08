@@ -10,156 +10,90 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  final List<String> _tasks = [];
-  bool _isLoading = false;
-
-  static const String _generateTasksUrl =
-      'http://127.0.0.1:5000/generate-task';
+  List<String> tasks = [];
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Задачи'),
-      ),
+      appBar: AppBar(title: const Text('Задачи')),
       floatingActionButton: FloatingActionButton(
-        onPressed: _openGenerateBottomSheet,
-        child: const Icon(Icons.auto_awesome),
+        onPressed: () => _showPromptDialog(),
+        child: const Icon(Icons.add),
       ),
-      body: _buildBody(),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : tasks.isEmpty
+              ? const Center(child: Text('Пока что нет задач'))
+              : ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (context, i) => ListTile(
+                    title: Text(tasks[i]),
+                    leading: const Icon(Icons.circle_outlined),
+                  ),
+                ),
     );
   }
 
-  Widget _buildBody() {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+  void _showPromptDialog() {
+    final textThemes = Theme.of(context).textTheme;
+    final ctrl = TextEditingController();
 
-    if (_tasks.isEmpty) {
-      return const Center(
-        child: Text(
-          'Задач пока нет\nНажмите ✨ чтобы сгенерировать',
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: _tasks.length,
-      separatorBuilder: (_, __) => const Divider(),
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(Icons.check_circle_outline),
-          title: Text(_tasks[index]),
-        );
-      },
-    );
-  }
-
-  void _openGenerateBottomSheet() {
-    final controller = TextEditingController();
-
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      builder: (context) => AlertDialog(
+        title: const Text('Введите запрос для генерации'),
+        titleTextStyle: textThemes.bodyMedium,
+        content: SizedBox(
+          width: double.infinity,
+          child: TextField(
+            controller: ctrl,
+            maxLines: 3,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Отмена'),
+          ),
+          TextButton(
+            onPressed: ctrl.text.trim().isEmpty
+                ? null
+                : () {
+                    Navigator.pop(context);
+                    _generate(ctrl.text.trim());
+                  },
+            child: const Text('ОК'),
+          ),
+        ],
       ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 16,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Генерация задач',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: controller,
-                maxLines: 4,
-                maxLength: 300,
-                decoration: const InputDecoration(
-                  hintText:
-                      'Например: Сгенерируй задачи для изучения Flutter за неделю',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: controller.text.trim().isEmpty
-                      ? null
-                      : () {
-                          Navigator.pop(context);
-                          _generateTasks(controller.text.trim());
-                        },
-                  child: const Text('Сгенерировать'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 
-  Future<void> _generateTasks(String prompt) async {
-    setState(() {
-      _isLoading = true;
-    });
+  Future<void> _generate(String prompt) async {
+    setState(() => loading = true);
 
     try {
-      final response = await http.post(
-        Uri.parse(_generateTasksUrl),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'prompt': prompt,
-        }),
+      var res = await http.post(
+        Uri.parse('http://127.0.0.1:5000/generate-task'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'prompt': prompt}),
       );
 
-      if (response.statusCode != 200) {
-        throw Exception('Server error ${response.statusCode}');
+      if (res.statusCode == 200) {
+        var data = jsonDecode(res.body);
+        setState(() => tasks = List<String>.from(data['tasks']));
+      } else {
+        throw Exception('Ошибка ${res.statusCode}');
       }
-
-      final data = jsonDecode(response.body);
-
-      // ОЖИДАЕМ ОТ СЕРВЕРА:
-      // {
-      //   "tasks": ["task 1", "task 2", ...]
-      // }
-
-      final List<String> generatedTasks =
-          List<String>.from(data['tasks']);
-
-      setState(() {
-        _tasks
-          ..clear()
-          ..addAll(generatedTasks);
-      });
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Ошибка генерации задач: $e'),
-          ),
+          SnackBar(content: Text('Не получилось: $e')),
         );
       }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => loading = false);
     }
   }
 }

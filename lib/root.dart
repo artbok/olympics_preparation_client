@@ -134,9 +134,7 @@ class Root extends StatelessWidget {
                 }
               },
             )
-          : DuelResultPage(outcome: MatchOutcome.win,
-      rating: 1520,
-      ratingDelta: 24,),
+          : DuelResultPage(outcome: MatchOutcome.win, rating: 1000, delta: 5),
     );
   }
 }
