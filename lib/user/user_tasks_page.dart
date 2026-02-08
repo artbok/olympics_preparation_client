@@ -5,6 +5,7 @@ import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
 import 'package:olympics_preparation_client/user/solving_page.dart';
 import 'package:olympics_preparation_client/user/filter_dialog.dart';
+import 'package:olympics_preparation_client/widgets/user_navigation.dart';
 
 class UserTasksPage extends StatefulWidget {
   const UserTasksPage({super.key});
@@ -94,8 +95,9 @@ class _UserTasksPage extends State<UserTasksPage> {
   Widget build(BuildContext context) {
     final username = getValue("username");
     final password = getValue("password");
-    return Scaffold(
-      appBar: AppBar(
+    return scaffoldWithUserNavigation(
+      0, context,
+      AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_alt),
@@ -109,7 +111,7 @@ class _UserTasksPage extends State<UserTasksPage> {
           ),
         ],
       ),
-      body: FutureBuilder(
+      FutureBuilder(
         future: getTasks(
           username,
           password,

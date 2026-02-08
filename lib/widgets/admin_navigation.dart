@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/user/user_tasks_page.dart';
+import 'package:olympics_preparation_client/admin/admin_tasks_page.dart';
 import 'package:olympics_preparation_client/user/duels/matchmaking_page.dart';
 import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 
@@ -7,7 +7,7 @@ void _onDestinationSelected(BuildContext context, int index) {
   Widget? page;
   switch (index) {
     case 0:
-      page = const UserTasksPage();
+      page = const AdminTasksPage();
     case 1:
       page = const MatchmakingPage();
   }
@@ -23,7 +23,7 @@ void _onDestinationSelected(BuildContext context, int index) {
   }
 }
 
-Widget scaffoldWithUserNavigation(
+Widget scaffoldWithAdminNavigation(
   int curPage,
   BuildContext context,
   PreferredSizeWidget? appBar,

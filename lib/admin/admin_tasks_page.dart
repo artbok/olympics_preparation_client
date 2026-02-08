@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:olympics_preparation_client/admin/create_task_dialog.dart';
+import 'package:olympics_preparation_client/widgets/admin_navigation.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
@@ -221,8 +222,10 @@ class _AdminTasksPage extends State<AdminTasksPage> {
   Widget build(BuildContext context) {
     final username = getValue("username");
     final password = getValue("password");
-    return Scaffold(
-      appBar: AppBar(
+    return scaffoldWithAdminNavigation(
+      0,
+      context,
+      AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_alt),
@@ -236,7 +239,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
           ),
         ],
       ),
-      body: FutureBuilder(
+      FutureBuilder(
         future: getTasks(
           username,
           password,
@@ -298,7 +301,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      FloatingActionButton(
         onPressed: () {
           createTaskDialog(context, () => setState(() {}));
         },

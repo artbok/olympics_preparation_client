@@ -47,6 +47,7 @@ class MatchmakingPageState extends State<MatchmakingPage> {
     return scaffoldWithUserNavigation(
       1,
       context,
+      AppBar(),
       Column(
         children: [
           Padding(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:olympics_preparation_client/admin/admin_tasks_page.dart';
 import 'package:olympics_preparation_client/user/duels/matchmaking_page.dart';
 import 'package:olympics_preparation_client/user/authorization/user_registration_page.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
+import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
 import 'package:olympics_preparation_client/user/empty_with_add_task_button_page.dart';
@@ -81,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            const MatchmakingPage(),
+                            const UserTasksPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
@@ -91,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            const AdminFirstPage(),
+                            const AdminTasksPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
