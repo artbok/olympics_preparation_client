@@ -25,6 +25,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
 
   Widget getItemWidget(
     int id,
+    int id,
     String description,
     String subject,
     String difficulty,
@@ -38,8 +39,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       child: Container(
         decoration: BoxDecoration(
-          color: colors.secondary,
-          border: Border.all(color: colors.primary, width: 2.0),
+          color: colors.surface,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -69,7 +69,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
               icon: const Icon(Icons.edit),
               onPressed: () => changedDialog(
                 context,
-                id,
+                id.toString(),
                 description,
                 subject,
                 difficulty,

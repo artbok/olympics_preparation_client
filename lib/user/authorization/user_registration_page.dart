@@ -6,7 +6,7 @@ import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
-import 'package:olympics_preparation_client/user/empty_with_add_task_button_page.dart';
+
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
