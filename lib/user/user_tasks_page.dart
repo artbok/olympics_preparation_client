@@ -4,7 +4,7 @@ import 'package:olympics_preparation_client/requests/get_tasks.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
 import 'package:olympics_preparation_client/user/solving_page.dart';
-import 'package:olympics_preparation_client/user/filters_dialog.dart';
+import 'package:olympics_preparation_client/user/filter_dialog.dart';
 
 class UserTasksPage extends StatefulWidget {
   const UserTasksPage({super.key});
@@ -52,7 +52,6 @@ class _UserTasksPage extends State<UserTasksPage> {
         child: Container(
           decoration: BoxDecoration(
             color: colors.surface,
-            //border: Border.all(color: difficultyColors[difficulty]!, width: 2.0),
             borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
@@ -99,13 +98,13 @@ class _UserTasksPage extends State<UserTasksPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () => filterdialog(
+            icon: const Icon(Icons.filter_alt),
+            onPressed: () => filterDialog(
               context,
               selectedDifficulties,
               selectedTopics,
               topics,
-              () => setState(() {})
+              () => setState(() {}),
             ),
           ),
         ],
@@ -116,7 +115,7 @@ class _UserTasksPage extends State<UserTasksPage> {
           password,
           selectedDifficulties,
           selectedTopics.toList(),
-          currentPage
+          currentPage,
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -125,7 +124,9 @@ class _UserTasksPage extends State<UserTasksPage> {
             return Text("Ошибка: ${snapshot.error}");
           } else {
             totalPages = snapshot.data!["totalPages"];
-            List<Map<String, dynamic>> tasks = List<Map<String, dynamic>>.from(snapshot.data!["tasks"]);
+            List<Map<String, dynamic>> tasks = List<Map<String, dynamic>>.from(
+              snapshot.data!["tasks"],
+            );
             topics = snapshot.data!["topics"];
             List<Widget> items = [];
             for (int i = 0; i < tasks.length; i++) {

@@ -4,7 +4,7 @@ import 'package:olympics_preparation_client/widgets/button.dart';
 List<String> difficulties = ['легкий', 'средний', 'сложный'];
 List<String> subjects = ['немецкий язык', 'математика', 'я устал'];
 
-void showCreateItemDialog(BuildContext context, VoidCallback refreshPage) {
+void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController answerController = TextEditingController();
@@ -171,7 +171,6 @@ void showCreateItemDialog(BuildContext context, VoidCallback refreshPage) {
                             child: button(
                               Text("Создать", style: textTheme.bodySmall),
                               () {
-
                                 Navigator.pop(context);
                                 refreshPage();
                               },

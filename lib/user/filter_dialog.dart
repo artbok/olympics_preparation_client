@@ -1,7 +1,12 @@
 import "package:flutter/material.dart";
 
-
-void filterdialog(BuildContext context, List<String> selectedDifficulties, Set<String> selectedTopics, Map<String, dynamic> data, VoidCallback reloadScreen) {
+void filterDialog(
+  BuildContext context,
+  List<String> selectedDifficulties,
+  Set<String> selectedTopics,
+  Map<String, dynamic> data,
+  VoidCallback reloadScreen,
+) {
   final colors = Theme.of(context).colorScheme;
   final List<String> filtersDifficulty = List.from(selectedDifficulties);
   showDialog(
@@ -32,9 +37,13 @@ void filterdialog(BuildContext context, List<String> selectedDifficulties, Set<S
                     void toggleCategory(String category, bool? isSelected) {
                       setState(() {
                         if (isSelected == true) {
-                          selectedTopics.addAll(List<String>.from(data[category]!));
+                          selectedTopics.addAll(
+                            List<String>.from(data[category]!),
+                          );
                         } else {
-                          selectedTopics.removeAll(List<String>.from(data[category]!));
+                          selectedTopics.removeAll(
+                            List<String>.from(data[category]!),
+                          );
                         }
                       });
                     }

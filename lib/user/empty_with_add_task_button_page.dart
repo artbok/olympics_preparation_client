@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/user/create_task_dialog.dart';
+import 'package:olympics_preparation_client/admin/create_task_dialog.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -9,7 +9,6 @@ class FirstPage extends StatefulWidget {
 }
 
 //TO BE DELETED
-
 
 class FirstPageState extends State<FirstPage> {
   TextEditingController searchController = TextEditingController();
@@ -28,7 +27,7 @@ class FirstPageState extends State<FirstPage> {
       backgroundColor: colors.surface,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showCreateItemDialog(context, refreshPage);
+          createTaskDialog(context, refreshPage);
         },
         child: const Icon(Icons.add),
       ),
