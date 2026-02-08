@@ -9,6 +9,6 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox("storage");
   putToTheStorage("serverAddress", serverAddress);
-  //clearUserData();
+  clearUserData();
   runApp(const Root());
 }

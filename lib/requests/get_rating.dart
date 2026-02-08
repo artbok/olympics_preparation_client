@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:olympics_preparation_client/localstorage.dart';
 
-Future<int> getElo(String username) async {
+Future<int> getRating(String username) async {
   Map<String, dynamic> params = {"username": username};
 
-  final Uri url = Uri.parse('${getValue("serverAddress")}/getElo');
+  final Uri url = Uri.parse('${getValue("serverAddress")}/getRating');
 
   final response = await http.post(
     url,
@@ -13,5 +13,5 @@ Future<int> getElo(String username) async {
     body: json.encode(params),
   );
   Map<String, dynamic> data = jsonDecode(response.body) as Map<String, dynamic>;
-  return data["elo"];
+  return data["rating"];
 }

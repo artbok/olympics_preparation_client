@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
+import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/requests/create_user.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
-import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
+import 'package:olympics_preparation_client/admin/admin_first_page.dart';
 
 
 class AdminRegistrationPage extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'dart:ui';
-import 'package:olympics_preparation_client/requests/get_elo_request.dart';
+import 'package:olympics_preparation_client/requests/get_rating.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
-import 'package:olympics_preparation_client/user/pages/duels/finding_match_dialog.dart';
+import 'package:olympics_preparation_client/user/duels/finding_match_dialog.dart';
 import 'package:olympics_preparation_client/services/socket_service.dart';
-import 'package:olympics_preparation_client/user/pages/duels/duel_page.dart';
+import 'package:olympics_preparation_client/user/duels/duel_page.dart';
 
 class MatchmakingPage extends StatefulWidget {
   const MatchmakingPage({super.key});
@@ -27,7 +27,7 @@ class MatchmakingPageState extends State<MatchmakingPage> {
 
   Future<void> fetchData() async {
     try {
-      int elo = await getElo(username);
+      int elo = await getRating(username);
       if (mounted) {
         setState(() {
           rating = elo;
@@ -89,20 +89,20 @@ class MatchmakingPageState extends State<MatchmakingPage> {
                       barrierDismissible: false,
                       builder: (context) {
                         return ValueListenableBuilder(
-                          valueListenable: socketService.notifier,
+                          valueListenable: socketService.matchmakingNotifier,
                           builder: (context, val, child) {
-                            if (val != null && val["page"] == "game_page") {
+                            if (val != null && val["code"] == "match_found") {
                               Widget page = DuelPage(
+                                duelName: val["duelName"],
                                 username: username,
                                 userRating: rating,
-                                opponent: val["opponent"],
-                                opponentRating: val["rating"],
-
+                                opponent: val["opponent"]["name"],
+                                opponentRating: val["opponent"]["rating"],
                               );
-                              socketService.notifier.value = null;
+                              socketService.matchmakingNotifier.value = null;
                               return page;
                             }
-                            return FindingMatchDialog(colors: colors);
+                            return FindingMatchDialog();
                           },
                         );
                       },

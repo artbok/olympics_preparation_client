@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 
 
-
 class FindingMatchDialog extends StatefulWidget {
-  final ColorScheme colors;
-  const FindingMatchDialog({super.key, required this.colors});
+  const FindingMatchDialog({super.key});
 
   @override
   State<FindingMatchDialog> createState() => _FindingMatchDialogState();
@@ -41,8 +39,9 @@ class _FindingMatchDialogState extends State<FindingMatchDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return AlertDialog(
-      backgroundColor: widget.colors.surface,
+      backgroundColor: colors.surface,
       title: Text("Поиск соперника${"." * _dots}"),
       actionsAlignment: MainAxisAlignment.center,
       actions: [

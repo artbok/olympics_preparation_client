@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/user/pages/authorisation_page.dart';
-import 'package:olympics_preparation_client/user/pages/admin_registration_page.dart';
+import 'package:olympics_preparation_client/user/authorization/login_page.dart';
+import 'package:olympics_preparation_client/user/authorization/admin_registration_page.dart';
 import 'package:olympics_preparation_client/requests/create_user.dart';
+import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
-import 'package:olympics_preparation_client/user/pages/first_page.dart';
+import 'package:olympics_preparation_client/user/empty_with_add_task_button_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -22,7 +23,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
     Icon icon = const Icon(Icons.visibility_off);
     if (obscureText) {
@@ -121,7 +121,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
-                              const FirstPage(),
+                              const UserTasksPage(),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ),

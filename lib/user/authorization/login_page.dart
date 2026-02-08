@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/user/pages/duels/matchmaking_page.dart';
-import 'package:olympics_preparation_client/user/pages/registration_page.dart';
+import 'package:olympics_preparation_client/user/duels/matchmaking_page.dart';
+import 'package:olympics_preparation_client/user/authorization/user_registration_page.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
-import 'package:olympics_preparation_client/user/pages/first_page.dart';
-import 'package:olympics_preparation_client/admin/pages/admin_first_page.dart';
+import 'package:olympics_preparation_client/user/empty_with_add_task_button_page.dart';
+import 'package:olympics_preparation_client/admin/admin_first_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

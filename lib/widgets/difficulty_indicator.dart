@@ -6,24 +6,24 @@ Widget difficultyIndicator(String difficulty, String subject, [VoidCallback? onP
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: <Color>[
-          Color.fromARGB(255, 9, 235, 58),
-          Color.fromARGB(255, 17, 161, 61),
+          Color.fromARGB(255, 26, 133, 49),
+          Color.fromARGB(255, 15, 71, 32),
         ],
         tileMode: TileMode.clamp),
     "Средний": const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: <Color>[
-          Color.fromARGB(255, 255, 218, 8),
-          Color.fromARGB(255, 252, 175, 60),
+          Color.fromARGB(255, 206, 177, 12),
+          Color.fromARGB(255, 122, 106, 14),
         ],
         tileMode: TileMode.clamp),
     "Сложный": const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: <Color>[
-          Color.fromARGB(255, 235, 9, 9),
-          Color.fromARGB(255, 255, 60, 11),
+          Color.fromARGB(255, 160, 18, 18),
+          Color.fromARGB(255, 105, 23, 23),
         ],
         tileMode: TileMode.clamp),
   };
