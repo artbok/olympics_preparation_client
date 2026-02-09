@@ -8,7 +8,6 @@ import 'package:olympics_preparation_client/user/filter_dialog.dart';
 import 'package:olympics_preparation_client/requests/get_tasks.dart';
 import 'package:olympics_preparation_client/admin/edit_task_dialog.dart';
 
-
 class AdminTasksPage extends StatefulWidget {
   const AdminTasksPage({super.key});
 
@@ -30,7 +29,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
     String difficulty,
     String? hint,
     String answer,
-    String explanation,  
+    String explanation,
     String topic,
     BuildContext context,
   ) {
@@ -77,7 +76,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
                 answer,
                 explanation,
                 topic,
-                () => setState(() {})
+                () => setState(() {}),
               ),
             ),
             IconButton(
@@ -118,7 +117,10 @@ class _AdminTasksPage extends State<AdminTasksPage> {
               selectedDifficulties,
               selectedTopics,
               topics,
-              () => setState(() {}),
+              () {
+                currentPage = 1;
+                setState(() {});
+              },
             ),
           ),
         ],

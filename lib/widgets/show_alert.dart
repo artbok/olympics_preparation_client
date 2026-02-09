@@ -12,7 +12,7 @@ void showIncorrectDataAlert(BuildContext context, [Widget title = const Text("У
           title: title,
           actionsAlignment: MainAxisAlignment.center,
           actions: [
-            buttonDialog(
+            button(
                   Text("Ок", style: textThemes.bodyMedium),
                  () {
                   Navigator.pop(context);

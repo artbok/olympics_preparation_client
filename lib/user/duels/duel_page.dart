@@ -217,7 +217,7 @@ class DuelPageState extends State<DuelPage> {
   }
 
   Widget _buildGameArea() {
-    
+    final colors = Theme.of(context).colorScheme;
     switch (status) {
       case DuelStatus.waitingForStart:
         return Center(
@@ -249,7 +249,7 @@ class DuelPageState extends State<DuelPage> {
                       const SizedBox(height: 8),
                       Text(
                         currentTask,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18, color: colors.primary),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -273,7 +273,7 @@ class DuelPageState extends State<DuelPage> {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: Text("Ответить", style: TextStyle(fontSize: 18)),
+                child: Text("Ответить", style: TextStyle(fontSize: 18, color: Colors.white)),
               ),
             ],
           ),
@@ -355,7 +355,7 @@ class DuelPageState extends State<DuelPage> {
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text("Выйти"),
+                child: Text("Выйти", style: TextStyle(color: Colors.white),),
               ),
             ],
           ),

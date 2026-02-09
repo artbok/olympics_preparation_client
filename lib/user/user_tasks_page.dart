@@ -108,7 +108,10 @@ class _UserTasksPage extends State<UserTasksPage> {
               selectedDifficulties,
               selectedTopics,
               topics,
-              () => setState(() {}),
+              () {
+                currentPage = 1;
+                setState(() {});
+              },
             ),
           ),
         ],
