@@ -86,7 +86,7 @@ class _AdminStatsPageState extends State<AdminStatsPage> {
   @override
   Widget build(BuildContext context) {
     return scaffoldWithAdminNavigation(
-      2,
+      1,
       context,
       AppBar(
         title: const Text('Статистика пользователей'),

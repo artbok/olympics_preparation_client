@@ -114,12 +114,15 @@ class _UploadPageState extends State<UploadPage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(
+    
+    return scaffoldWithAdminNavigation(
+      2, 
+      context,
+      AppBar(
         title: const Text('Загрузчик задач'),
         titleTextStyle: textThemes.bodyLarge,
       ),
-      body: Center(
+      Center(
         child: SizedBox(
           width: 280,
           child: Column(
