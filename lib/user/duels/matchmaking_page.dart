@@ -59,7 +59,11 @@ class MatchmakingPageState extends State<MatchmakingPage> {
                 _navigateToDuel(val);
               });
             }
-            return FindingMatchDialog();
+            return FindingMatchDialog(
+              leave: () {
+                socketService.sendMessage("leave_queue", username);
+              },
+            );
           },
         );
       },
@@ -84,7 +88,7 @@ class MatchmakingPageState extends State<MatchmakingPage> {
         .then((_) {
           print("Returned from duel, refreshing rating...");
           socketService.matchmakingNotifier.value = null;
-          fetchData(); 
+          fetchData();
         });
   }
 
