@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 
-
 class FindingMatchDialog extends StatefulWidget {
-  const FindingMatchDialog({super.key});
+  VoidCallback leave;
+  FindingMatchDialog({super.key, required this.leave});
 
   @override
   State<FindingMatchDialog> createState() => _FindingMatchDialogState();
@@ -45,10 +45,10 @@ class _FindingMatchDialogState extends State<FindingMatchDialog> {
       title: Text("Поиск соперника${"." * _dots}"),
       actionsAlignment: MainAxisAlignment.center,
       actions: [
-        button(
-          const Text("Отмена", style: TextStyle(color: Colors.white)),
-          () => Navigator.pop(context),
-        ),
+        button(const Text("Отмена", style: TextStyle(color: Colors.white)), () {
+          widget.leave();
+          Navigator.pop(context);
+        }),
       ],
     );
   }
