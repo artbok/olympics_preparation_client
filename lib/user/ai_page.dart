@@ -49,6 +49,7 @@ class _TasksPageState extends State<TasksPage> {
           child: TextField(
             controller: ctrl,
             maxLines: 3,
+            autofocus: true
           ),
         ),
         actions: [
@@ -57,11 +58,11 @@ class _TasksPageState extends State<TasksPage> {
             child: const Text('Отмена'),
           ),
           TextButton(
-            onPressed: ctrl.text.trim().isEmpty
-                ? null
-                : () {
-                    Navigator.pop(context);
-                    _generate(ctrl.text.trim());
+            onPressed: () {
+              final text = ctrl.text.trim();
+              if (text.isEmpty) return;
+              Navigator.pop(context);
+              _generate(text);
                   },
             child: const Text('ОК'),
           ),
@@ -69,7 +70,7 @@ class _TasksPageState extends State<TasksPage> {
       ),
     );
   }
-
+  
   Future<void> _generate(String prompt) async {
     setState(() => loading = true);
 

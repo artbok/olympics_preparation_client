@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
+import 'package:olympics_preparation_client/user/authorization/user_registration_page.dart';
 import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 import 'package:olympics_preparation_client/user/ai_page.dart';
 import 'package:olympics_preparation_client/user/result_duel_page.dart';
+import 'package:olympics_preparation_client/admin/admin_tasks.dart';
+
 
 class Root extends StatelessWidget {
   const Root({super.key});
@@ -134,7 +137,7 @@ class Root extends StatelessWidget {
                 }
               },
             )
-          : DuelResultPage(outcome: MatchOutcome.win, rating: 1000, delta: 5),
+          : TasksPage(),
     );
   }
 }
