@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/requests/get_profile.dart';
 import 'package:graphic/graphic.dart';
+import 'package:olympics_preparation_client/widgets/user_navigation.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,9 +25,11 @@ class ProfilePageState extends State<ProfilePage> {
     final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: colors.surface,
-      body: FutureBuilder<Map<String, dynamic>>(
+    return scaffoldWithUserNavigation(
+      2,
+      context,
+      AppBar(),
+      FutureBuilder<Map<String, dynamic>>(
         future: userData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -80,7 +83,7 @@ class ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),              
+              const SizedBox(height: 15),
               Container(
                 height: 200,
                 padding: const EdgeInsets.all(16),
