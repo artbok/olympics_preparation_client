@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/requests/create_tasks.dart';
+import 'package:olympics_preparation_client/widgets/show_alert.dart';
 
 List<String> difficulties = ['Простой', 'Средний', 'Сложный'];
 
@@ -11,7 +11,9 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
   TextEditingController answerController = TextEditingController();
   TextEditingController explanationController = TextEditingController();
   TextEditingController hintController = TextEditingController();
-  String? selectedDifficulty;
+  
+  String selectedDifficulty = 'Простой';
+
   final textTheme = Theme.of(context).textTheme;
   final colors = Theme.of(context).colorScheme;
   showDialog(
@@ -32,17 +34,26 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                   const SizedBox(height: 20),
 
                   DropdownButtonFormField<String>(
-                    initialValue: selectedDifficulty,
-                    decoration: InputDecoration(
-                    labelText: "Сложность",
-                    border: OutlineInputBorder(),
-                    ),
-                    items: difficulties.map((value) {
-                        return DropdownMenuItem(value: value, child: Text(value));
+                      value: selectedDifficulty,
+                      decoration: const InputDecoration(
+                        labelText: "Сложность",
+                        border: OutlineInputBorder(),
+                      ),
+                      items: difficulties.map((value) {
+                        return DropdownMenuItem(
+                          value: value,
+                          child: Text(value),
+                        );
                       }).toList(),
-                      onChanged: (newValue) => setState(() => selectedDifficulty = newValue),                      
-                      ),                    
-                      
+                      onChanged: (newValue) {
+                        if (newValue != null) {
+                          setState(() => selectedDifficulty = newValue);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -69,6 +80,8 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 20),
+
 
                     TextFormField(
                         controller: descriptionController,
@@ -78,6 +91,8 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                         ),
                         maxLines: 3,
                       ),
+                      const SizedBox(height: 20),
+
                       
                       TextFormField(
                         controller: answerController,
@@ -87,6 +102,8 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                         ),
                         maxLines: 3,
                       ),
+                      const SizedBox(height: 20),
+                    
 
                     TextFormField(
                         controller: hintController,
@@ -97,6 +114,8 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                         ),
                         maxLines: 3,
                       ),
+                      const SizedBox(height: 20),
+
 
                     TextFormField(
                         controller: explanationController,
@@ -107,15 +126,19 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                         ),
                         maxLines: 3,
                       ),
+                      const SizedBox(height: 20),
+
                     
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                       ElevatedButton(
                       onPressed: () {
-                        createTask(descriptionController.text, subjectController.text, selectedDifficulty ?? '', hintController.text, answerController.text, explanationController.text, topicController.text);
-                        Navigator.pop(context);
-                        refreshPage();
+                        if (descriptionController.text.isNotEmpty && subjectController.text.isNotEmpty && hintController.text.isNotEmpty && answerController.text.isNotEmpty && explanationController.text.isNotEmpty && topicController.text.isNotEmpty) {
+                          createTask(descriptionController.text, subjectController.text, selectedDifficulty ?? '', hintController.text, answerController.text, explanationController.text, topicController.text);
+                          Navigator.pop(context);
+                          refreshPage();
+                        } else {showIncorrectDataAlert(context);}
                       },
                       child: const Text(
                         'Сохранить',
