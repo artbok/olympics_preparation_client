@@ -1,78 +1,37 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'solving_page.dart';
+import 'package:olympics_preparation_client/user/solving_page.dart'; 
 
-class TasksPage extends StatefulWidget {
-  const TasksPage({super.key});
 
-  @override
-  State<TasksPage> createState() => _TasksPageState();
+void showAiPromptDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => const AiGenerationDialog(),
+  );
 }
 
-class _TasksPageState extends State<TasksPage> {
-  List<String> tasks = [];
+class AiGenerationDialog extends StatefulWidget {
+  const AiGenerationDialog({super.key});
+
+  @override
+  State<AiGenerationDialog> createState() => _AiGenerationDialogState();
+}
+
+class _AiGenerationDialogState extends State<AiGenerationDialog> {
+  final TextEditingController _ctrl = TextEditingController();
   bool loading = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Задачи')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showPromptDialog(),
-        child: const Icon(Icons.add),
-      ),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : tasks.isEmpty
-              ? const Center(child: Text('Пока что нет задач'))
-              : ListView.builder(
-                  itemCount: tasks.length,
-                  itemBuilder: (context, i) => ListTile(
-                    title: Text(tasks[i]),
-                    leading: const Icon(Icons.circle_outlined),
-                  ),
-                ),
-    );
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
   }
 
-  void _showPromptDialog() {
-    final textThemes = Theme.of(context).textTheme;
-    final ctrl = TextEditingController();
+  Future<void> _generate() async {
+    final prompt = _ctrl.text.trim();
+    if (prompt.isEmpty) return;
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Введите запрос для генерации'),
-        titleTextStyle: textThemes.bodyMedium,
-        content: SizedBox(
-          width: double.infinity,
-          child: TextField(
-            controller: ctrl,
-            maxLines: 3,
-            autofocus: true
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Отмена'),
-          ),
-          TextButton(
-            onPressed: () {
-              final text = ctrl.text.trim();
-              if (text.isEmpty) return;
-              Navigator.pop(context);
-              _generate(text);
-                  },
-            child: const Text('ОК'),
-          ),
-        ],
-      ),
-    );
-  }
- 
-Future<void> _generate(String prompt) async {
     setState(() => loading = true);
 
     try {
@@ -86,21 +45,21 @@ Future<void> _generate(String prompt) async {
         var data = jsonDecode(res.body);
 
         if (data['success'] == true && data['task'] != null) {
-          var task = data['task'];
+          var taskData = data['task'];
 
           if (mounted) {
-            // Переходим на страницу решения с полученными данными
+            Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => SolvePage(
-                  id: task['id'],
-                  description: task['description'],
-                  subject: task['subject'],
-                  difficulty: task['difficulty'],
-                  hint: task['hint'],
-                  answer: task['answer'],
-                  explanation: task['explanation'],
+                  id: taskData['id'],
+                  description: taskData['description'],
+                  subject: taskData['subject'],
+                  difficulty: taskData['difficulty'],
+                  hint: taskData['hint'],
+                  answer: taskData['answer'],
+                  explanation: taskData['explanation'],
                 ),
               ),
             );
@@ -113,12 +72,63 @@ Future<void> _generate(String prompt) async {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Ошибка генерации: $e')));
+        ).showSnackBar(SnackBar(content: Text('Ошибка: $e')));
       }
     } finally {
       if (mounted) {
         setState(() => loading = false);
       }
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textThemes = Theme.of(context).textTheme;
+
+    return AlertDialog(
+      title: const Text('Генерация задачи'),
+      titleTextStyle: textThemes.bodyLarge?.copyWith(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: loading
+            ? const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 20),
+                  Text("Нейросеть придумывает задачу..."),
+                ],
+              )
+            : TextField(
+                controller: _ctrl,
+                maxLines: 3,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText:
+                      'Введите тему или условие (например: "Задача на логику про яблоки")',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+      ),
+      actions: loading
+          ? [] 
+          : [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Отмена'),
+              ),
+              ElevatedButton(
+                onPressed: _generate,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Генерировать'),
+              ),
+            ],
+    );
   }
 }

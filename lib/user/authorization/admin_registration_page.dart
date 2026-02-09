@@ -22,7 +22,6 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
     Icon icon = const Icon(Icons.visibility_off);
     if (obscureText) {

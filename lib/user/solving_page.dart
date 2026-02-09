@@ -27,6 +27,7 @@ class SolvePage extends StatefulWidget {
 class _SolvePage extends State<SolvePage> {
   final TextEditingController _answerController = TextEditingController();
   bool _showHint = false;
+  bool _showExplanation = false;
   String buttonText = "Отправить";
 
   @override
@@ -197,7 +198,55 @@ class _SolvePage extends State<SolvePage> {
                 child: Text(buttonText,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ),)
+              ),),
+              const SizedBox(height: 20),
+
+              Row(
+                children: [
+                  InkWell(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      _showExplanation ? Icons.done_all : Icons.remove_done,
+                      color: Colors.amber.shade800,
+                    ),
+                    Text(
+                      _showExplanation ? 'Скрыть решение' : 'Показать решение',
+                      style: const TextStyle(
+                        color: Colors.amber,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                    
+                  ],
+                ),
+                onTap: () {
+                  setState(() {
+                    _showExplanation = !_showExplanation;
+                  });
+                },
+              ),
+              Expanded(child: Container())
+              ]),
+              if (_showExplanation) ...[
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    widget.explanation,
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
+
           ],
         ),
       ),
