@@ -1,20 +1,22 @@
 import "package:flutter/material.dart";
-import 'package:olympics_preparation_client/localstorage.dart';
-import 'package:olympics_preparation_client/requests/get_tasks.dart';
+import 'package:olympics_preparation_client/admin/create_task_dialog.dart';
+import 'package:olympics_preparation_client/widgets/admin_navigation.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
-import 'package:olympics_preparation_client/user/solving_page.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/user/filter_dialog.dart';
-import 'package:olympics_preparation_client/widgets/user_navigation.dart';
+import 'package:olympics_preparation_client/requests/get_tasks.dart';
+import 'package:olympics_preparation_client/admin/edit_task_dialog.dart';
 
-class UserTasksPage extends StatefulWidget {
-  const UserTasksPage({super.key});
+
+class AdminTasksPage extends StatefulWidget {
+  const AdminTasksPage({super.key});
 
   @override
-  State<UserTasksPage> createState() => _UserTasksPage();
+  State<AdminTasksPage> createState() => _AdminTasksPage();
 }
 
-class _UserTasksPage extends State<UserTasksPage> {
+class _AdminTasksPage extends State<AdminTasksPage> {
   int currentPage = 1;
   int totalPages = 0;
   List<String> selectedDifficulties = ['Простой', 'Средний', 'Сложный'];
@@ -34,46 +36,53 @@ class _UserTasksPage extends State<UserTasksPage> {
     final colors = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      child: InkWell(
-        onTap: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SolvePage(
-                id: id,
-                description: description,
-                subject: subject,
-                difficulty: difficulty,
-                hint: hint ?? "Подсказки нет",
-                answer: answer,
+      child: Container(
+        decoration: BoxDecoration(
+          color: colors.surface,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "№$id          $description",
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Row(
+                  children: [
+                    difficultyIndicator(difficulty, "$subject, $topic"),
+                    Expanded(child: Container()),
+                  ],
+                ),
               ),
             ),
-          ),
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: colors.surface,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ListTile(
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "№$id          $description",
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                  ),
-                ),
-              ],
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () => changedDialog(
+                context,
+                id,
+                description,
+                subject,
+                difficulty,
+                hint ?? '',
+                answer,
+                topic,
+                () => setState(() {})
+              ),
             ),
-            subtitle: Row(
-              children: [
-                difficultyIndicator(difficulty, "$subject, $topic"),
-                Expanded(child: Container()),
-              ],
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () => deleteDialog(context, id, () => setState(() {})),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -95,8 +104,9 @@ class _UserTasksPage extends State<UserTasksPage> {
   Widget build(BuildContext context) {
     final username = getValue("username");
     final password = getValue("password");
-    return scaffoldWithUserNavigation(
-      0, context,
+    return scaffoldWithAdminNavigation(
+      0,
+      context,
       AppBar(
         actions: [
           IconButton(
@@ -172,6 +182,12 @@ class _UserTasksPage extends State<UserTasksPage> {
             );
           }
         },
+      ),
+      FloatingActionButton(
+        onPressed: () {
+          createTaskDialog(context, () => setState(() {}));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
