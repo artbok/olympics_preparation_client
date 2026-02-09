@@ -30,6 +30,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
     String difficulty,
     String? hint,
     String answer,
+    String explanation,  
     String topic,
     BuildContext context,
   ) {
@@ -74,6 +75,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
                 difficulty,
                 hint ?? '',
                 answer,
+                explanation,
                 topic,
                 () => setState(() {})
               ),
@@ -150,6 +152,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
                   tasks[i]["difficulty"]!,
                   tasks[i]["hint"],
                   tasks[i]["answer"],
+                  tasks[i]["explanation"],
                   tasks[i]["topic"],
                   context,
                 ),

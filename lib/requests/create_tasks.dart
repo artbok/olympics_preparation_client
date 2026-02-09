@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:olympics_preparation_client/localstorage.dart';
 
 
-Future<Map<String, dynamic>> editTask(
-    int taskId, 
+Future<Map<String, dynamic>> createTask(
     String taskDescription, 
     String taskSubject, 
     String taskDifficulty, 
@@ -15,18 +14,17 @@ Future<Map<String, dynamic>> editTask(
       String username = getValue("username");
       String password = getValue("password");
   Map<String, dynamic> params = {
-    "taskId": taskId,
-    "taskDescription": taskDescription,
-    "taskSubject": taskSubject,
-    "taskDifficulty": taskDifficulty,
-    "taskHint": taskHint,
-    "taskAnswer": taskAnswer,
-    "taskExplanation": taskExplanation,
-    "taskTopic": taskTopic,
+    "description": taskDescription,
+    "subject": taskSubject,
+    "difficulty": taskDifficulty,
+    "hint": taskHint,
+    "answer": taskAnswer,
+    "explanation": taskExplanation,
+    "topic": taskTopic,
     "username": username,
     "password": password,
   };
-  final Uri url = Uri.parse('${getValue("serverAddress")}/editTask');
+  final Uri url = Uri.parse('${getValue("serverAddress")}/newTask');
   final response = await http.post(
     url,
     headers: <String, String>{

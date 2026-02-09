@@ -10,6 +10,7 @@ import 'package:olympics_preparation_client/requests/edit_tasks.dart';
     String difficulty,
     String hint,
     String answer,
+    String explanation,
     String topic,
     VoidCallback refreshPage
   ) {
@@ -22,6 +23,9 @@ import 'package:olympics_preparation_client/requests/edit_tasks.dart';
     );
     final TextEditingController answerController = TextEditingController(
       text: answer,
+    );
+    final TextEditingController explanationController = TextEditingController(
+      text: explanation,
     );
 
     String selectedSubject = subject;
@@ -76,13 +80,23 @@ import 'package:olympics_preparation_client/requests/edit_tasks.dart';
                     ),
                     maxLines: 3,
                   ),
+
+                  TextFormField(
+                    controller: explanationController,
+                    decoration: const InputDecoration(
+                      labelText: 'Объяснение',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 3,
+                  ),
+                  
                   Container(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                     ElevatedButton(
                     onPressed: () {
-                      editTask(id, descriptionController.text, selectedSubject, selectedDifficulty, hintController.text, answerController.text, selectedTopic);
+                      editTask(id, descriptionController.text, selectedSubject, selectedDifficulty, hintController.text, answerController.text, explanationController.text, selectedTopic);
                       Navigator.pop(context);
                       refreshPage();
                     },
