@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/get_profile.dart';
 import 'package:graphic/graphic.dart';
+import 'package:olympics_preparation_client/widgets/user_navigation.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,8 +17,7 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    String username = "1234";
-    userData = getProfile(username);
+    userData = getProfile(getValue("username"));
   }
 
   @override
@@ -24,9 +25,11 @@ class ProfilePageState extends State<ProfilePage> {
     final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: colors.surface,
-      body: FutureBuilder<Map<String, dynamic>>(
+    return scaffoldWithUserNavigation(
+      2,
+      context,
+      AppBar(),
+      FutureBuilder<Map<String, dynamic>>(
         future: userData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,26 +40,49 @@ class ProfilePageState extends State<ProfilePage> {
             return Center(child: Text('Ошибка: ${snapshot.error}'));
           }
 
-          final userData = snapshot.data!;
-
-          final rating = userData["rating"];
-          final name = userData["name"] ?? userData["username"];
-          final solvedCorrectly = userData["solvedCorrectly"];
-          final solvedIncorrectly = userData["solvedIncorrectly"];
-          final totalSolved = solvedCorrectly + solvedIncorrectly;
-
-          List<int> ratingChanges = [10, 20, -10, 4, 10, -28];
-          ratingChanges.add(rating);
-          int temp = rating;
-          for (int i = ratingChanges.length - 2; i >= 0; i--) {
-            temp = temp - ratingChanges[i];
-            ratingChanges[i] = temp;
+          if (!snapshot.hasData ||
+              snapshot.data == null ||
+              snapshot.data!.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.person_off, size: 50),
+                  const SizedBox(height: 16),
+                  Text('Профиль не найден', style: textThemes.headlineSmall),
+                ],
+              ),
+            );
           }
 
-          final chartData = ratingChanges.asMap().entries.map((entry) {
+          final userData = snapshot.data!;
+
+          final rating = userData["rating"] ?? 0;
+          final name = userData["username"] ?? "Неизвестный";
+          final solvedCorrectly = userData["solvedCorrectly"] ?? 0;
+          final solvedIncorrectly = userData["solvedIncorrectly"] ?? 0;
+          final totalSolved = solvedCorrectly + solvedIncorrectly;
+
+          List<int> ratingHistory = [];
+          final rawRatingChanges = userData["ratingChanges"];
+          if (rawRatingChanges is List && rawRatingChanges.isNotEmpty) {
+            ratingHistory = List<int>.from(
+              rawRatingChanges.map((e) => int.tryParse(e.toString()) ?? 0),
+            );
+
+            ratingHistory.add(rating);
+            int current = rating;
+            for (int i = ratingHistory.length - 2; i >= 0; i--) {
+              current = current - ratingHistory[i];
+              ratingHistory[i] = current;
+            }
+          } else {
+            ratingHistory = [rating];
+          }
+
+          final chartData = ratingHistory.asMap().entries.map((entry) {
             return {'index': entry.key, 'value': entry.value};
           }).toList();
-
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -80,7 +106,7 @@ class ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),              
+              const SizedBox(height: 15),
               Container(
                 height: 200,
                 padding: const EdgeInsets.all(16),

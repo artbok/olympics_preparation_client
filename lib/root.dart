@@ -3,7 +3,7 @@ import 'package:olympics_preparation_client/admin/admin_tasks_page.dart';
 import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/auth_user.dart';
-import 'package:olympics_preparation_client/user/empty_with_add_task_button_page.dart';
+import 'package:olympics_preparation_client/user/authorization/user_registration_page.dart';
 import 'package:olympics_preparation_client/user/profile_page.dart';
 import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 
@@ -138,7 +138,7 @@ class Root extends StatelessWidget {
                 }
               },
             )
-          : ProfilePage(), 
+          : RegistrationPage(), 
     );
   }
 }
