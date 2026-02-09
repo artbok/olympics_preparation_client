@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'solving_page.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key});
@@ -70,8 +71,8 @@ class _TasksPageState extends State<TasksPage> {
       ),
     );
   }
-  
-  Future<void> _generate(String prompt) async {
+ 
+Future<void> _generate(String prompt) async {
     setState(() => loading = true);
 
     try {
@@ -83,18 +84,41 @@ class _TasksPageState extends State<TasksPage> {
 
       if (res.statusCode == 200) {
         var data = jsonDecode(res.body);
-        setState(() => tasks = List<String>.from(data['tasks']));
+
+        if (data['success'] == true && data['task'] != null) {
+          var task = data['task'];
+
+          if (mounted) {
+            // Переходим на страницу решения с полученными данными
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SolvePage(
+                  id: task['id'],
+                  description: task['description'],
+                  subject: task['subject'],
+                  difficulty: task['difficulty'],
+                  hint: task['hint'],
+                  answer: task['answer'],
+                  explanation: task['explanation'],
+                ),
+              ),
+            );
+          }
+        }
       } else {
-        throw Exception('Ошибка ${res.statusCode}');
+        throw Exception('Ошибка сервера: ${res.statusCode}');
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Не получилось: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Ошибка генерации: $e')));
       }
     } finally {
-      setState(() => loading = false);
+      if (mounted) {
+        setState(() => loading = false);
+      }
     }
   }
 }
