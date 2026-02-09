@@ -129,7 +129,11 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                   axes: [
-                    Defaults.horizontalAxis..grid = null,
+                    Defaults.horizontalAxis
+                      ..grid = null
+                      ..label = LabelStyle(
+                        textStyle: TextStyle(color: Colors.transparent),
+                      ),
                     Defaults.verticalAxis,
                   ],
                   coord: RectCoord(),
