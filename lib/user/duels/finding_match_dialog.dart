@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 
 class FindingMatchDialog extends StatefulWidget {
-  VoidCallback leave;
-  FindingMatchDialog({super.key, required this.leave});
+  final VoidCallback leave;
+  const FindingMatchDialog({super.key, required this.leave});
 
   @override
   State<FindingMatchDialog> createState() => _FindingMatchDialogState();

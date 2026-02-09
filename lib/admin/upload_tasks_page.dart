@@ -35,7 +35,7 @@ class _UploadPageState extends State<UploadPage> {
 
       PlatformFile file = result.files.first;
 
-      if (file.size != null && file.size! > 1024 * 1024) {
+      if (file.size > 1024 * 1024) {
         _showMessage('Файл слишком большой (макс. 1 МБ)', isError: true);
         return;
       }
@@ -112,7 +112,6 @@ class _UploadPageState extends State<UploadPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
     
     return scaffoldWithAdminNavigation(
@@ -168,8 +167,7 @@ class _UploadPageState extends State<UploadPage> {
                           _isLoading ? 'Отправка...' : 'Выбрать файл',
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-                          foregroundColor: Colors.white,
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 32,
                             vertical: 18,

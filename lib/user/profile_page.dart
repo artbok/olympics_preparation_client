@@ -22,7 +22,6 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
 
     return scaffoldWithUserNavigation(
