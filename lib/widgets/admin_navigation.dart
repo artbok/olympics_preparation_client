@@ -29,7 +29,7 @@ void _onDestinationSelected(BuildContext context, int index) {
   }
 }
 
-// В admin_navigation.dart обновляем функцию scaffoldWithAdminNavigation
+
 Widget scaffoldWithAdminNavigation(
   int curPage,
   BuildContext context,
