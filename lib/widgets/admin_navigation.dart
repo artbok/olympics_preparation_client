@@ -1,15 +1,22 @@
+// Обновляем admin_navigation.dart
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/admin/admin_tasks_page.dart';
 import 'package:olympics_preparation_client/user/duels/matchmaking_page.dart';
 import 'package:olympics_preparation_client/user/authorization/login_page.dart';
+import 'package:olympics_preparation_client/admin/admin_stats_page.dart'; // Добавляем импорт
 
 void _onDestinationSelected(BuildContext context, int index) {
   Widget? page;
   switch (index) {
     case 0:
       page = const AdminTasksPage();
+      break;
     case 1:
       page = const MatchmakingPage();
+      break;
+    case 2:
+      page = const AdminStatsPage(); // Добавляем новую страницу
+      break;
   }
   if (page != null) {
     Navigator.pushReplacement(
@@ -23,13 +30,13 @@ void _onDestinationSelected(BuildContext context, int index) {
   }
 }
 
+// В admin_navigation.dart обновляем функцию scaffoldWithAdminNavigation
 Widget scaffoldWithAdminNavigation(
   int curPage,
   BuildContext context,
   PreferredSizeWidget? appBar,
   Widget body,
   [Widget? floatingActionButton]
-  
 ) {
   if (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height) {
     return Scaffold(
@@ -38,6 +45,7 @@ Widget scaffoldWithAdminNavigation(
         destinations: const <NavigationDestination>[
           NavigationDestination(icon: Icon(Icons.list_alt), label: 'Задачи'),
           NavigationDestination(icon: Icon(Icons.sports_mma), label: 'Дуэли'),
+          NavigationDestination(icon: Icon(Icons.people), label: 'Статистика'),
         ],
         selectedIndex: curPage,
         onDestinationSelected: (index) =>
@@ -67,6 +75,10 @@ Widget scaffoldWithAdminNavigation(
                   NavigationRailDestination(
                     icon: Icon(Icons.sports_mma),
                     label: Text('Дуэли'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.people),
+                    label: Text('Статистика'),
                   ),
                 ],
               ),
