@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:olympics_preparation_client/localstorage.dart';
 import 'dart:ui';
+import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/get_rating.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/user/duels/finding_match_dialog.dart';
@@ -19,6 +19,7 @@ class MatchmakingPageState extends State<MatchmakingPage> {
   String username = getValue("username");
   bool isLoading = true;
   int rating = 1000;
+  final socketService = SocketService();
 
   @override
   void initState() {
@@ -40,10 +41,55 @@ class MatchmakingPageState extends State<MatchmakingPage> {
     }
   }
 
+  void _startMatchmaking() {
+    socketService.matchmakingNotifier.value = null;
+
+    socketService.connectToServer(username);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return ValueListenableBuilder(
+          valueListenable: socketService.matchmakingNotifier,
+          builder: (context, val, child) {
+            if (val != null && val["code"] == "match_found") {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(dialogContext).pop();
+                _navigateToDuel(val);
+              });
+            }
+            return FindingMatchDialog();
+          },
+        );
+      },
+    );
+  }
+
+  void _navigateToDuel(Map<String, dynamic> data) {
+    socketService.connectToDuel(data["duelName"]);
+
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => DuelPage(
+              duelName: data["duelName"],
+              username: username,
+              userRating: rating,
+              opponent: data["opponent"]["name"],
+              opponentRating: data["opponent"]["rating"],
+            ),
+          ),
+        )
+        .then((_) {
+          print("Returned from duel, refreshing rating...");
+          socketService.matchmakingNotifier.value = null;
+          fetchData(); 
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
     return scaffoldWithUserNavigation(
       1,
       context,
@@ -81,33 +127,7 @@ class MatchmakingPageState extends State<MatchmakingPage> {
                   "Найти соперника",
                   style: TextStyle(color: Colors.white),
                 ),
-                () {
-                  final socketService = SocketService();
-                  socketService.connectToServer(username);
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) {
-                      return ValueListenableBuilder(
-                        valueListenable: socketService.matchmakingNotifier,
-                        builder: (context, val, child) {
-                          if (val != null && val["code"] == "match_found") {
-                            Widget page = DuelPage(
-                              duelName: val["duelName"],
-                              username: username,
-                              userRating: rating,
-                              opponent: val["opponent"]["name"],
-                              opponentRating: val["opponent"]["rating"],
-                            );
-                            socketService.matchmakingNotifier.value = null;
-                            return page;
-                          }
-                          return FindingMatchDialog();
-                        },
-                      );
-                    },
-                  );
-                },
+                _startMatchmaking,
               ),
             ),
           ),
