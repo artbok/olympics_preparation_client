@@ -135,7 +135,7 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                       ElevatedButton(
                       onPressed: () {
                         if (descriptionController.text.isNotEmpty && subjectController.text.isNotEmpty && hintController.text.isNotEmpty && answerController.text.isNotEmpty && explanationController.text.isNotEmpty && topicController.text.isNotEmpty) {
-                          createTask(descriptionController.text, subjectController.text, selectedDifficulty ?? '', hintController.text, answerController.text, explanationController.text, topicController.text);
+                          createTask(descriptionController.text, subjectController.text, selectedDifficulty, hintController.text, answerController.text, explanationController.text, topicController.text);
                           Navigator.pop(context);
                           refreshPage();
                         } else {showIncorrectDataAlert(context);}

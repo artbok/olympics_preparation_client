@@ -212,7 +212,7 @@ class _SolvePage extends State<SolvePage> {
                       color: Colors.amber.shade800,
                     ),
                     Text(
-                      _showExplanation ? 'Скрыть подсказку' : 'Показать подсказку',
+                      _showExplanation ? 'Скрыть решение' : 'Показать решение',
                       style: const TextStyle(
                         color: Colors.amber,
                         fontWeight: FontWeight.w500,
