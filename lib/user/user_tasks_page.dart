@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/requests/get_tasks.dart';
+import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/widgets/page_changer.dart';
 import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
 import 'package:olympics_preparation_client/user/solving_page.dart';
 import 'package:olympics_preparation_client/user/filter_dialog.dart';
 import 'package:olympics_preparation_client/widgets/user_navigation.dart';
+import 'package:olympics_preparation_client/user/ai_page.dart';
 
 class UserTasksPage extends StatefulWidget {
   const UserTasksPage({super.key});
@@ -98,7 +100,8 @@ class _UserTasksPage extends State<UserTasksPage> {
     final username = getValue("username");
     final password = getValue("password");
     return scaffoldWithUserNavigation(
-      0, context,
+      0,
+      context,
       AppBar(
         actions: [
           IconButton(
@@ -177,6 +180,12 @@ class _UserTasksPage extends State<UserTasksPage> {
               ],
             );
           }
+        },
+      ),
+      FloatingActionButton(
+        child: const Text("AI", style: TextStyle(color: Colors.white)),
+        onPressed: () {
+          showAiPromptDialog(context);
         },
       ),
     );
