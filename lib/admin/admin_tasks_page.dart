@@ -6,6 +6,7 @@ import 'package:olympics_preparation_client/widgets/difficulty_indicator.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/user/filter_dialog.dart';
 import 'package:olympics_preparation_client/requests/get_tasks.dart';
+import 'package:olympics_preparation_client/admin/edit_task_dialog.dart';
 
 
 class AdminTasksPage extends StatefulWidget {
@@ -67,18 +68,19 @@ class _AdminTasksPage extends State<AdminTasksPage> {
               icon: const Icon(Icons.edit),
               onPressed: () => changedDialog(
                 context,
-                id.toString(),
+                id,
                 description,
                 subject,
                 difficulty,
                 hint ?? '',
                 answer,
                 topic,
+                () => setState(() {})
               ),
             ),
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () => deleteDialog(context, id.toString()),
+              onPressed: () => deleteDialog(context, id, () => setState(() {})),
             ),
           ],
         ),
@@ -96,125 +98,6 @@ class _AdminTasksPage extends State<AdminTasksPage> {
     setState(() {
       currentPage--;
     });
-  }
-
-  void changedDialog(
-    BuildContext context,
-    String id,
-    String description,
-    String subject,
-    String difficulty,
-    String hint,
-    String answer,
-    String topic,
-  ) {
-    final colors = Theme.of(context).colorScheme;
-    final TextEditingController descriptionController = TextEditingController(
-      text: description,
-    );
-    final TextEditingController hintController = TextEditingController(
-      text: hint,
-    );
-    final TextEditingController answerController = TextEditingController(
-      text: answer,
-    );
-
-    String selectedId = id;
-    String selectedSubject = subject;
-    String selectedDifficulty = difficulty;
-    String selectedTopic = topic;
-
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return Dialog(
-    //       backgroundColor: colors.surface,
-    //       insetPadding: const EdgeInsets.symmetric(
-    //         horizontal: 20,
-    //         vertical: 30,
-    //       ),
-    //       child: Container(
-    //         width: 500,
-    //         constraints: const BoxConstraints(maxHeight: 700),
-    //         padding: const EdgeInsets.all(20),
-    //         child: SingleChildScrollView(
-    //           child: Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             children: [
-    //               const Text(
-    //                 'Редактировать задачу',
-    //                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-    //               ),
-
-    //               TextFormField(
-    //                 controller: descriptionController,
-    //                 decoration: const InputDecoration(
-    //                   labelText: 'Описание задачи',
-    //                   border: OutlineInputBorder(),
-    //                 ),
-    //                 maxLines: 3,
-    //               ),
-
-    //               TextFormField(
-    //                 controller: hintController,
-    //                 decoration: const InputDecoration(
-    //                   labelText: 'Подсказка',
-    //                   border: OutlineInputBorder(),
-    //                 ),
-    //                 maxLines: 3,
-    //               ),
-
-    //               TextFormField(
-    //                 controller: answerController,
-    //                 decoration: const InputDecoration(
-    //                   labelText: 'Ответ',
-    //                   border: OutlineInputBorder(),
-    //                 ),
-    //                 maxLines: 3,
-    //               ),
-
-    //               ElevatedButton(
-    //                 onPressed: () {
-    //                   final taskIndex = tasks.indexWhere(
-    //                     (task) => task['id'] == id,
-    //                   );
-
-    //                   if (taskIndex != -1) {
-    //                     setState(() {
-    //                       tasks[taskIndex] = {
-    //                         'id': selectedId,
-    //                         'description': descriptionController.text,
-    //                         'subject': selectedSubject,
-    //                         'difficulty': selectedDifficulty,
-    //                         'hint': hintController.text,
-    //                         'answer': answerController.text,
-    //                         'topic': selectedTopic,
-    //                       };
-    //                     });
-    //                   }
-    //                   Navigator.pop(context);
-    //                 },
-    //                 child: const Text(
-    //                   'Сохранить',
-    //                   style: TextStyle(color: Colors.white),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-  }
-
-  void deleteDialog(BuildContext contex, String id) {
-    // final taskIndex = tasks.indexWhere((task) => task['id'] == id);
-    // if (taskIndex != -1) {
-    //   setState(() {
-    //     tasks.removeAt(taskIndex);
-    //   });
-    // }
   }
 
   @override
