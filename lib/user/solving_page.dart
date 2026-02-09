@@ -7,6 +7,7 @@ class SolvePage extends StatefulWidget {
   final String difficulty;
   final String hint;
   final String answer;
+  final String explanation;
 
   const SolvePage({
     super.key,
@@ -16,6 +17,7 @@ class SolvePage extends StatefulWidget {
     required this.difficulty,
     required this.hint,
     required this.answer,
+    required this.explanation,
   });
 
   @override

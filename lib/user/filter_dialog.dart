@@ -99,11 +99,8 @@ void filterDialog(
                             final String catName = category.key;
                             final List<dynamic> items = category.value;
 
-                            final int selectedCount = items
-                                .where((i) => selectedTopics.contains(i))
-                                .length;
-                            final bool allSelected =
-                                selectedCount == items.length;
+                            final int selectedCount = items.where((i) => selectedTopics.contains(i)).length;
+                            final bool allSelected = selectedCount == items.length;
                             final bool noneSelected = selectedCount == 0;
 
                             return ExpansionTile(

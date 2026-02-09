@@ -5,15 +5,15 @@ void showIncorrectDataAlert(BuildContext context, [Widget title = const Text("У
   showDialog(
       context: context,
       builder: (BuildContext context) {
+        final colors = Theme.of(context).colorScheme;
+        final textThemes = Theme.of(context).textTheme;
         return AlertDialog(
-          backgroundColor: const Color.fromARGB(255, 255, 222, 173),
+          backgroundColor: colors.surface,
           title: title,
           actionsAlignment: MainAxisAlignment.center,
           actions: [
-            buttonDialog(
-                  const Text("Ок",
-                  style: TextStyle(color: Colors.white),
-                  ),
+            button(
+                  Text("Ок", style: textThemes.bodyMedium),
                  () {
                   Navigator.pop(context);
                 },)

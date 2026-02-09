@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
+import 'package:olympics_preparation_client/requests/create_tasks.dart';
 
-List<String> difficulties = ['легкий', 'средний', 'сложный'];
-List<String> subjects = ['немецкий язык', 'математика', 'я устал'];
+List<String> difficulties = ['Простой', 'Средний', 'Сложный'];
 
 void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
-  TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
+  TextEditingController topicController = TextEditingController();
   TextEditingController answerController = TextEditingController();
+  TextEditingController explanationController = TextEditingController();
   TextEditingController hintController = TextEditingController();
   String? selectedDifficulty;
-  String? selectedSubject;
   final textTheme = Theme.of(context).textTheme;
   final colors = Theme.of(context).colorScheme;
   showDialog(
@@ -22,125 +23,72 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
         child: StatefulBuilder(
           builder: (context, setState) {
             return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height * 0.8,
-                ),
+              child:  Padding(
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Text("Новая задача", style: textTheme.titleLarge),
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Новая задача", style: textTheme.titleLarge),
+                  const SizedBox(height: 20),
+
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedDifficulty,
+                    decoration: InputDecoration(
+                    labelText: "Сложность",
+                    border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      child: TextFormField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          labelText: "Название",
-                          labelStyle: textTheme.labelMedium,
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      child: Row(
+                    items: difficulties.map((value) {
+                        return DropdownMenuItem(value: value, child: Text(value));
+                      }).toList(),
+                      onChanged: (newValue) => setState(() => selectedDifficulty = newValue),                      
+                      ),                    
+                      
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: DropdownButtonFormField<String>(
-                              initialValue: selectedDifficulty,
+                            child: TextFormField(
+                              controller: subjectController,
                               decoration: InputDecoration(
-                                labelText: "Сложность",
-                                labelStyle: textTheme.labelMedium,
+                                labelText: "Предмет",
                                 border: OutlineInputBorder(),
                               ),
-                              items: difficulties.map<DropdownMenuItem<String>>(
-                                (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                },
-                              ).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedDifficulty = newValue;
-                                });
-                              },
+                              maxLines: 1,
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: DropdownButtonFormField<String>(
-                              initialValue: selectedSubject,
+                            child: TextFormField(
+                              controller: topicController,
                               decoration: InputDecoration(
-                                labelText: "Предмет",
-                                labelStyle: textTheme.labelMedium,
+                                labelText: "Тема",
                                 border: OutlineInputBorder(),
                               ),
-                              items: subjects.map<DropdownMenuItem<String>>((
-                                String value,
-                              ) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedSubject = newValue;
-                                });
-                              },
+                              maxLines: 1,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      child: TextFormField(
+
+                    TextFormField(
                         controller: descriptionController,
                         decoration: InputDecoration(
                           labelText: "Описание",
-                          labelStyle: textTheme.labelMedium,
                           border: OutlineInputBorder(),
                         ),
                         maxLines: 3,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      child: TextFormField(
+                      
+                      TextFormField(
                         controller: answerController,
                         decoration: InputDecoration(
                           labelText: "Ответ",
-                          labelStyle: textTheme.labelMedium,
                           border: OutlineInputBorder(),
                         ),
                         maxLines: 3,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      child: TextFormField(
+
+                    TextFormField(
                         controller: hintController,
                         decoration: InputDecoration(
                           labelText: "Подсказка",
@@ -149,39 +97,41 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                         ),
                         maxLines: 3,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 20,
+
+                    TextFormField(
+                        controller: explanationController,
+                        decoration: InputDecoration(
+                          labelText: "Объяснение",
+                          labelStyle: textTheme.labelMedium,
+                          border: OutlineInputBorder(),
+                        ),
+                        maxLines: 3,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: button(
-                              Text("Отмена", style: textTheme.bodySmall),
-                              () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: button(
-                              Text("Создать", style: textTheme.bodySmall),
-                              () {
-                                Navigator.pop(context);
-                                refreshPage();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                      ElevatedButton(
+                      onPressed: () {
+                        createTask(descriptionController.text, subjectController.text, selectedDifficulty ?? '', hintController.text, answerController.text, explanationController.text, topicController.text);
+                        Navigator.pop(context);
+                        refreshPage();
+                      },
+                      child: const Text(
+                        'Сохранить',
+                        style: TextStyle(color: Colors.white),
+                      ),),
+                      ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        'Отмена',
+                        style: TextStyle(color: Colors.white),
+                      ),)
+                      ]
                     ),
-                  ],
-                ),
-              ),
+                ]
+                )
+            ),
             );
           },
         ),

@@ -28,6 +28,7 @@ class _UserTasksPage extends State<UserTasksPage> {
     String difficulty,
     String? hint,
     String answer,
+    String explanation,
     String topic,
     BuildContext context,
   ) {
@@ -46,6 +47,7 @@ class _UserTasksPage extends State<UserTasksPage> {
                 difficulty: difficulty,
                 hint: hint ?? "Подсказки нет",
                 answer: answer,
+                explanation: explanation,
               ),
             ),
           ),
@@ -106,7 +108,10 @@ class _UserTasksPage extends State<UserTasksPage> {
               selectedDifficulties,
               selectedTopics,
               topics,
-              () => setState(() {}),
+              () {
+                currentPage = 1;
+                setState(() {});
+              },
             ),
           ),
         ],
@@ -140,6 +145,7 @@ class _UserTasksPage extends State<UserTasksPage> {
                   tasks[i]["difficulty"]!,
                   tasks[i]["hint"],
                   tasks[i]["answer"],
+                  tasks[i]["explanation"],
                   tasks[i]["topic"],
                   context,
                 ),
