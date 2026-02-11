@@ -133,6 +133,12 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                       ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        'Отмена',
+                        style: TextStyle(color: Colors.white),
+                      ),),
+                      ElevatedButton(
                       onPressed: () {
                         if (descriptionController.text.isNotEmpty && subjectController.text.isNotEmpty && hintController.text.isNotEmpty && answerController.text.isNotEmpty && explanationController.text.isNotEmpty && topicController.text.isNotEmpty) {
                           createTask(descriptionController.text, subjectController.text, selectedDifficulty, hintController.text, answerController.text, explanationController.text, topicController.text);
@@ -144,12 +150,7 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                         'Сохранить',
                         style: TextStyle(color: Colors.white),
                       ),),
-                      ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Отмена',
-                        style: TextStyle(color: Colors.white),
-                      ),)
+                      
                       ]
                     ),
                 ]

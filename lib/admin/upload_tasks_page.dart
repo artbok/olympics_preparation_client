@@ -19,75 +19,98 @@ class _UploadPageState extends State<UploadPage> {
   static const String SERVER_URL = 'http://127.0.0.1:5000/upload';
 
   Future<void> _uploadJson() async {
-    setState(() => _isLoading = true);
+  setState(() => _isLoading = true);
 
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['json'],
-        withData: true,
-      );
+  try {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+      withData: true,
+    );
 
-      if (result == null) {
-        _showMessage('Отменено пользователем', isError: true);
-        return;
-      }
-
-      PlatformFile file = result.files.first;
-
-      if (file.size > 1024 * 1024) {
-        _showMessage('Файл слишком большой (макс. 1 МБ)', isError: true);
-        return;
-      }
-
-      if (file.bytes == null) {
-        throw Exception('Не удалось прочитать содержимое файла');
-      }
-
-      String jsonString;
-      try {
-        jsonString = utf8.decode(file.bytes!);
-      } catch (e) {
-        throw FormatException('Некорректная кодировка UTF-8 в файле');
-      }
-
-      try {
-        json.decode(jsonString);
-      } catch (e) {
-        throw FormatException('Невалидный JSON: ${e.toString()}');
-      }
-
-      final response = await http
-          .post(
-            Uri.parse(SERVER_URL),
-            headers: {'Content-Type': 'application/json; charset=utf-8'},
-            body: jsonString,
-          )
-          .timeout(const Duration(seconds: 15));
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        _showMessage('✅ Задача успешно добавлена!', isError: false);
-      } else {
-        String error = 'Сервер вернул ошибку (${response.statusCode})';
-        try {
-          final body = json.decode(response.body);
-          if (body is Map && body['error'] != null) {
-            error = 'Ошибка сервера: ${body['error']}';
-          }
-        } catch (_) {}
-        _showMessage(error, isError: true);
-      }
-    } on TimeoutException catch (_) {
-      _showMessage('Таймаут: сервер не отвечает (15 сек)', isError: true);
-    } on FormatException catch (e) {
-      _showMessage('Невалидный JSON: ${e.message}', isError: true);
-    } catch (e) {
-      _showMessage('Ошибка: ${e.toString()}', isError: true);
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
+    if (result == null) {
+      _showMessage('Отменено пользователем', isError: true);
+      return;
     }
-  }
 
+    PlatformFile file = result.files.first;
+
+    if (file.size > 1024 * 1024) {
+      _showMessage('Файл слишком большой (макс. 1 МБ)', isError: true);
+      return;
+    }
+
+    if (file.bytes == null) {
+      throw Exception('Не удалось прочитать содержимое файла');
+    }
+
+    String jsonString = utf8.decode(file.bytes!);
+    final dynamic jsonData = json.decode(jsonString);
+    if (jsonData is! Map && jsonData is! List) {
+      throw FormatException('JSON должен содержать объект или массив задач');
+    }
+    final response = await http
+        .post(
+          Uri.parse(SERVER_URL),
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          body: jsonString,
+        )
+        .timeout(const Duration(seconds: 15));
+
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      
+      if (body is Map && body.containsKey('results')) {
+        final total = body['total'] ?? 0;
+        final success = body['success_count'] ?? 0;
+        final failed = body['failed_count'] ?? 0;
+        
+        String message;
+        bool isError;
+        
+        if (failed == 0) {
+          message = 'Все задачи добавлены успешно ($total шт.)';
+          isError = false;
+        } else if (success > 0) {
+          message = 'Добавлено $success из $total задач. Ошибок: $failed';
+          isError = true;
+          if (body['results'] is List) {
+            final errors = (body['results'] as List)
+                .where((r) => r['status'] == 'error')
+                .map((e) => 'Строка ${e['index'] + 1}: ${e['error']}')
+                .take(3)
+                .join('\n');
+            debugPrint('Ошибки загрузки:\n$errors');
+          }
+        } else {
+          message = 'Не удалось добавить ни одной задачи';
+          isError = true;
+        }
+        
+        _showMessage(message, isError: isError);
+      } else {
+        _showMessage('Некорректный формат ответа сервера', isError: true);
+      }
+    } else {
+      String errorMsg = 'Ошибка сервера (${response.statusCode})';
+      try {
+        final body = json.decode(response.body);
+        if (body is Map && body['error'] != null) {
+          errorMsg = 'Сервер: ${body['error']}';
+        }
+      } catch (_) {}
+      _showMessage(errorMsg, isError: true);
+    }
+  } on TimeoutException {
+    _showMessage('Таймаут: сервер не отвечает (15 сек)', isError: true);
+  } on FormatException catch (e) {
+    _showMessage('Невалидный JSON: ${e.message}', isError: true);
+  } catch (e) {
+    _showMessage('Ошибка: ${e.toString()}', isError: true);
+  } finally {
+    if (mounted) setState(() => _isLoading = false);
+  }
+}
   void _showMessage(String message, {required bool isError}) {
     if (!mounted) return;
 
@@ -164,7 +187,7 @@ class _UploadPageState extends State<UploadPage> {
                               )
                             : const Icon(Icons.file_upload, size: 24),
                         label: Text(
-                          _isLoading ? 'Отправка...' : 'Выбрать файл',
+                          _isLoading ? 'Отправка...' : 'Выбрать файл', style: TextStyle(color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.primary,
