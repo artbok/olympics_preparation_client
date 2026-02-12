@@ -18,7 +18,6 @@ ios/
 linux/
 macos/
 test/
-web/
 windows/
 .metadata
 flutter_application_1.iml

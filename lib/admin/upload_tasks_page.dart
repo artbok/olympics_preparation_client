@@ -69,7 +69,7 @@ class _UploadPageState extends State<UploadPage> {
         bool isError;
         
         if (failed == 0) {
-          message = 'Все задачи добавлены успешно ($total шт.)';
+          message = 'Все задачи успешно добавлены ($total шт.)';
           isError = false;
         } else if (success > 0) {
           message = 'Добавлено $success из $total задач. Ошибок: $failed';
@@ -122,13 +122,6 @@ class _UploadPageState extends State<UploadPage> {
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.all(16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        action: SnackBarAction(
-          label: 'Закрыть',
-          textColor: Colors.white,
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
       ),
     );
   }
