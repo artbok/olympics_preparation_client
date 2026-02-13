@@ -1,0 +1,46 @@
+name: Flutter Web Docker CI
+
+on:
+  push:
+    branches:
+      - 'main' #[**] Change to your main branch name
+  pull_request:
+    branches:
+      - 'main' #[**] Change to your main branch name
+
+jobs:
+  build-and-push-docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x' # Or specify your desired version
+          channel: 'stable' # Or 'beta', 'dev'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Web
+        run: flutter build web --release # Or flutter build web if not building in release mode
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/inventory-management-client:latest . \
+            --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%SZ)
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/inventory-management-client:latest
