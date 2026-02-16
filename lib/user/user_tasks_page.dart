@@ -31,6 +31,7 @@ class _UserTasksPage extends State<UserTasksPage> {
     String answer,
     String explanation,
     String topic,
+    String status,
     BuildContext context,
   ) {
     final colors = Theme.of(context).colorScheme;
@@ -60,10 +61,17 @@ class _UserTasksPage extends State<UserTasksPage> {
           ),
           child: ListTile(
             title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Text(
                     "№$id          $description",
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                  ),
+                ),
+                Expanded(
+                  child: Text(status,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
@@ -149,6 +157,7 @@ class _UserTasksPage extends State<UserTasksPage> {
                   tasks[i]["answer"],
                   tasks[i]["explanation"],
                   tasks[i]["topic"],
+                  tasks[i]["status"],
                   context,
                 ),
               );

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:olympics_preparation_client/widgets/change_task_activity.dart';
 
 class SolvePage extends StatefulWidget {
   final int id;
@@ -46,6 +47,7 @@ class _SolvePage extends State<SolvePage> {
     }
     if (widget.answer == answer) {
       buttonText = "Отправить";
+      editTaskActivitiesCorrect(widget.id);
       setState(() {});
       ScaffoldMessenger.of(
         context,
