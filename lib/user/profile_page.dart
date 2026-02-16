@@ -56,11 +56,12 @@ class ProfilePageState extends State<ProfilePage> {
 
           final userData = snapshot.data!;
 
-          final rating = userData["rating"] ?? 0;
+          final rating = userData["rating"] ?? -1;
           final name = userData["username"] ?? "Неизвестный";
-          final solvedCorrectly = userData["solvedCorrectly"] ?? 0;
-          final solvedIncorrectly = userData["solvedIncorrectly"] ?? 0;
+          final solvedCorrectly = userData["solvedCorrectly"] ?? -1;
+          final solvedIncorrectly = userData["solvedIncorrectly"] ?? -1;
           final totalSolved = solvedCorrectly + solvedIncorrectly;
+          final averageAnswerTime = userData["averageAnswerTime"];
 
           List<int> ratingHistory = [];
           final rawRatingChanges = userData["ratingChanges"];
@@ -101,6 +102,9 @@ class ProfilePageState extends State<ProfilePage> {
                         "Всего решено: $totalSolved",
                         style: textThemes.bodyMedium,
                       ),
+                      Text("Среднее время ответа: $averageAnswerTime",
+                      style: textThemes.bodyMedium,
+                      )
                     ],
                   ),
                 ],
@@ -138,6 +142,7 @@ class ProfilePageState extends State<ProfilePage> {
                   coord: RectCoord(),
                 ),
               ),
+              
             ],
           );
         },
