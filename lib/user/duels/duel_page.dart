@@ -330,11 +330,11 @@ class DuelPageState extends State<DuelPage> {
         String ratingChange = "";
         if (userScore > opponentScore) {
           resultMessage = "Победа!";
-          ratingChange = "+${_newRating - widget.userRating}";
+          ratingChange = "(+${_newRating - widget.userRating})";
           resultColor = Colors.green;
         } else if (userScore < opponentScore) {
           resultMessage = "Поражение";
-          ratingChange = "-${widget.userRating - _newRating}";
+          ratingChange = "(-${widget.userRating - _newRating})";
           resultColor = Colors.red;
         } else {
           resultMessage = "Ничья";
@@ -359,7 +359,7 @@ class DuelPageState extends State<DuelPage> {
                 "$userScore : $opponentScore",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              Text("Ваш новый рейтинг: $_newRating ($ratingChange)"),
+              Text("Ваш новый рейтинг: $_newRating $ratingChange"),
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
