@@ -3,6 +3,8 @@ import 'package:olympics_preparation_client/admin/admin_tasks_page.dart';
 import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 import 'package:olympics_preparation_client/admin/admin_stats_page.dart';
 import 'package:olympics_preparation_client/admin/upload_tasks_page.dart';
+import 'package:olympics_preparation_client/admin/admin_duels_page.dart';
+
 
 void _onDestinationSelected(BuildContext context, int index) {
   Widget? page;
@@ -16,6 +18,8 @@ void _onDestinationSelected(BuildContext context, int index) {
     case 2:
       page = const UploadPage();
       break;
+    case 3:
+      page = const AdminDuelsPage();
   }
   if (page != null) {
     Navigator.pushReplacement(
@@ -43,7 +47,8 @@ Widget scaffoldWithAdminNavigation(
         destinations: const <NavigationDestination>[
           NavigationDestination(icon: Icon(Icons.list_alt), label: 'Задачи'),
           NavigationDestination(icon: Icon(Icons.people), label: 'Статистика'),
-          NavigationDestination(icon: Icon(Icons.upload_file), label: 'Загрузка')
+          NavigationDestination(icon: Icon(Icons.upload_file), label: 'Загрузка'),
+          NavigationDestination(icon: Icon(Icons.one_k_sharp), label: 'Дуэли')
         ],
         selectedIndex: curPage,
         onDestinationSelected: (index) =>
@@ -78,6 +83,9 @@ Widget scaffoldWithAdminNavigation(
                     icon: Icon(Icons.upload_file),
                     label: Text('Загрузка'),
                   ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.one_k_sharp), 
+                    label: Text('Дуэли'))
                 ],
               ),
             ),
