@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:olympics_preparation_client/localstorage.dart';
 
-Future<List<dynamic>> getAdminStats() async {
+Future<List<dynamic>>? getAdminStats() async {
   final username = getValue("username");
   final password = getValue("password");
   
