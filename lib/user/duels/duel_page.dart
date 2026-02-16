@@ -39,7 +39,7 @@ class DuelPageState extends State<DuelPage> {
 
   num userScore = 0;
   num opponentScore = 0;
-
+  num _newRating = 0;
   bool? lastAnswerCorrect;
   num? lastRoundPoints;
   String? correctAnswer;
@@ -97,6 +97,7 @@ class DuelPageState extends State<DuelPage> {
             opponentScore += score;
           }
         } else if (data["code"] == "end_game") {
+          _newRating = data["ratings"][widget.username];
           _logicTimer?.cancel();
           status = DuelStatus.finished;
         }
@@ -273,7 +274,10 @@ class DuelPageState extends State<DuelPage> {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: Text("Ответить", style: TextStyle(fontSize: 18, color: Colors.white)),
+                child: Text(
+                  "Ответить",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ],
           ),
@@ -323,11 +327,14 @@ class DuelPageState extends State<DuelPage> {
       case DuelStatus.finished:
         String resultMessage;
         Color resultColor;
+        String ratingChange = "";
         if (userScore > opponentScore) {
           resultMessage = "Победа!";
+          ratingChange = "+${_newRating - widget.userRating}";
           resultColor = Colors.green;
         } else if (userScore < opponentScore) {
           resultMessage = "Поражение";
+          ratingChange = "-${widget.userRating - _newRating}";
           resultColor = Colors.red;
         } else {
           resultMessage = "Ничья";
@@ -352,10 +359,11 @@ class DuelPageState extends State<DuelPage> {
                 "$userScore : $opponentScore",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
+              Text("Ваш новый рейтинг: $_newRating ($ratingChange)"),
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text("Выйти", style: TextStyle(color: Colors.white),),
+                child: Text("Выйти", style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

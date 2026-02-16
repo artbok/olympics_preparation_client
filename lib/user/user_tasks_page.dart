@@ -31,6 +31,7 @@ class _UserTasksPage extends State<UserTasksPage> {
     String answer,
     String explanation,
     String topic,
+    String status,
     BuildContext context,
   ) {
     final colors = Theme.of(context).colorScheme;
@@ -68,6 +69,10 @@ class _UserTasksPage extends State<UserTasksPage> {
                     softWrap: true,
                   ),
                 ),
+                Text(status,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                  ),
               ],
             ),
             subtitle: Row(
@@ -149,6 +154,7 @@ class _UserTasksPage extends State<UserTasksPage> {
                   tasks[i]["answer"],
                   tasks[i]["explanation"],
                   tasks[i]["topic"],
+                  tasks[i]["status"],
                   context,
                 ),
               );

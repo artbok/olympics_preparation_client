@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:olympics_preparation_client/widgets/change_task_activity.dart';
 
 class SolvePage extends StatefulWidget {
   final int id;
@@ -46,12 +47,14 @@ class _SolvePage extends State<SolvePage> {
     }
     if (widget.answer == answer) {
       buttonText = "Отправить";
+      editTaskActivity(widget.id, "correct");
       setState(() {});
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Ваш ответ: $answer - верный')));
     } else {
       buttonText = "Изменить ответ";
+      editTaskActivity(widget.id, "incorrect");
       setState(() {});
       ScaffoldMessenger.of(
         context,
@@ -124,32 +127,32 @@ class _SolvePage extends State<SolvePage> {
             Row(
               children: [
                 InkWell(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    _showHint ? Icons.lightbulb : Icons.lightbulb_outline,
-                    color: Colors.amber.shade800,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        _showHint ? Icons.lightbulb : Icons.lightbulb_outline,
+                        color: Colors.amber.shade800,
+                      ),
+                      Text(
+                        _showHint ? 'Скрыть подсказку' : 'Показать подсказку',
+                        style: const TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    _showHint ? 'Скрыть подсказку' : 'Показать подсказку',
-                    style: const TextStyle(
-                      color: Colors.amber,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  )
-                  
-                ],
-              ),
-              onTap: () {
-                setState(() {
-                  _showHint = !_showHint;
-                });
-              },
+                  onTap: () {
+                    setState(() {
+                      _showHint = !_showHint;
+                    });
+                  },
+                ),
+                Expanded(child: Container()),
+              ],
             ),
-            Expanded(child: Container())
-            ]),
-            
+
             if (_showHint) ...[
               const SizedBox(height: 8),
               Container(
@@ -168,7 +171,7 @@ class _SolvePage extends State<SolvePage> {
               ),
               const SizedBox(height: 24),
             ],
-          const Text(
+            const Text(
               'Ваш ответ:',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
@@ -195,58 +198,61 @@ class _SolvePage extends State<SolvePage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(buttonText,
+                child: Text(
+                  buttonText,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ),),
-              const SizedBox(height: 20),
-
-              Row(
-                children: [
-                  InkWell(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      _showExplanation ? Icons.done_all : Icons.remove_done,
-                      color: Colors.amber.shade800,
-                    ),
-                    Text(
-                      _showExplanation ? 'Скрыть решение' : 'Показать решение',
-                      style: const TextStyle(
-                        color: Colors.amber,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                    
-                  ],
-                ),
-                onTap: () {
-                  setState(() {
-                    _showExplanation = !_showExplanation;
-                  });
-                },
               ),
-              Expanded(child: Container())
-              ]),
-              if (_showExplanation) ...[
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+            ),
+            const SizedBox(height: 20),
+
+            Row(
+              children: [
+                InkWell(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        _showExplanation ? Icons.done_all : Icons.remove_done,
+                        color: Colors.amber.shade800,
+                      ),
+                      Text(
+                        _showExplanation
+                            ? 'Скрыть решение'
+                            : 'Показать решение',
+                        style: const TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                  child: Text(
-                    widget.explanation,
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 15,
-                    ),
+                  onTap: () {
+                    setState(() {
+                      _showExplanation = !_showExplanation;
+                    });
+                  },
+                ),
+                Expanded(child: Container()),
+              ],
+            ),
+            if (_showExplanation) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  widget.explanation,
+                  style: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 15,
                   ),
                 ),
-                const SizedBox(height: 24),
-              ],
-
+              ),
+              const SizedBox(height: 24),
+            ],
           ],
         ),
       ),
