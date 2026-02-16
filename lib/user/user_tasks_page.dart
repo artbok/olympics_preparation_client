@@ -61,7 +61,6 @@ class _UserTasksPage extends State<UserTasksPage> {
           ),
           child: ListTile(
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Text(
@@ -70,12 +69,10 @@ class _UserTasksPage extends State<UserTasksPage> {
                     softWrap: true,
                   ),
                 ),
-                Expanded(
-                  child: Text(status,
+                Text(status,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
-                ),
               ],
             ),
             subtitle: Row(
