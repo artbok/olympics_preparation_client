@@ -272,7 +272,7 @@ List<Widget> buildSubjectTables(
                     ),
                     children: [
                       buildTableCell("Тема", textThemes),
-                      buildTableCell("Решено", textThemes),
+                      buildTableCell("Решено верно", textThemes),
                       buildTableCell("Всего", textThemes),
                     ],
                   ),
