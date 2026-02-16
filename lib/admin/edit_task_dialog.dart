@@ -14,8 +14,7 @@ void changedDialog(
   String answer,
   String explanation,
   String topic,
-  VoidCallback refreshPage,
-) {
+  VoidCallback refreshPage) {
   final colors = Theme.of(context).colorScheme;
   final TextEditingController descriptionController = TextEditingController(
     text: description,
