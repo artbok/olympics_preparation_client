@@ -23,7 +23,11 @@ class ProfilePageState extends State<ProfilePage> {
     userSolvedData = getUserTopics(getValue("username"), getValue("password"));
   }
 
-  Widget buildTableCell(String text, TextTheme textThemes, {bool isData = false}) {
+  Widget buildTableCell(
+    String text,
+    TextTheme textThemes, {
+    bool isData = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Text(
@@ -69,16 +73,21 @@ class ProfilePageState extends State<ProfilePage> {
           }
 
           final userData = snapshot.data!;
-
+          late final correctoutof;
           final rating = userData["rating"] ?? -1;
           final name = userData["username"] ?? "Неизвестный";
           final solvedCorrectly = userData["solvedCorrectly"] ?? -1;
           final solvedIncorrectly = userData["solvedIncorrectly"] ?? -1;
           final totalSolved = solvedCorrectly + solvedIncorrectly;
           final averageAnswerTime = userData["averageAnswerTime"];
+          if (totalSolved != 0) {
+            correctoutof = (solvedCorrectly / totalSolved).toStringAsFixed(2);
+          } else {
+            correctoutof = 0;
+          }
           List<int> ratingHistory = [];
           final rawRatingChanges = userData["ratingChanges"];
-          
+
           if (rawRatingChanges is List && rawRatingChanges.isNotEmpty) {
             ratingHistory = List<int>.from(
               rawRatingChanges.map((e) => int.tryParse(e.toString()) ?? 0),
@@ -119,12 +128,7 @@ class ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Text(
-                        name,
-                        style: textThemes.headlineLarge,
-                      ),
-                    ),
+                    Center(child: Text(name, style: textThemes.headlineLarge)),
                     const SizedBox(height: 15),
                     Container(
                       decoration: BoxDecoration(
@@ -133,27 +137,41 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                       child: Table(
                         border: TableBorder.all(),
-                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                        defaultVerticalAlignment:
+                            TableCellVerticalAlignment.middle,
                         children: [
                           TableRow(
-                            decoration: BoxDecoration(
-                              color: colors.surface,
-                            ),
+                            decoration: BoxDecoration(color: colors.surface),
                             children: [
                               buildTableCell("Рейтинг", textThemes),
-                              buildTableCell("Правильно", textThemes),
+                              buildTableCell(
+                                "Коэффициент правильных",
+                                textThemes,
+                              ),
                               buildTableCell("Всего", textThemes),
                               buildTableCell("Ср. время ответа", textThemes),
                             ],
                           ),
                           TableRow(
                             children: [
-                              buildTableCell("$rating", textThemes, isData: true),
-                              buildTableCell("$solvedCorrectly", textThemes, isData: true),
-                              buildTableCell("$totalSolved", textThemes, isData: true),
                               buildTableCell(
-                                averageAnswerTime != null 
-                                    ? "${averageAnswerTime.toStringAsFixed(1)} с" 
+                                "$rating",
+                                textThemes,
+                                isData: true,
+                              ),
+                              buildTableCell(
+                                "$correctoutof",
+                                textThemes,
+                                isData: true,
+                              ),
+                              buildTableCell(
+                                "$totalSolved",
+                                textThemes,
+                                isData: true,
+                              ),
+                              buildTableCell(
+                                averageAnswerTime != null
+                                    ? "${averageAnswerTime.toStringAsFixed(1)} с"
                                     : "0 с",
                                 textThemes,
                                 isData: true,
@@ -193,7 +211,9 @@ class ProfilePageState extends State<ProfilePage> {
                           Defaults.horizontalAxis
                             ..grid = null
                             ..label = LabelStyle(
-                              textStyle: const TextStyle(color: Colors.transparent),
+                              textStyle: const TextStyle(
+                                color: Colors.transparent,
+                              ),
                             ),
                           Defaults.verticalAxis,
                         ],
@@ -201,17 +221,17 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      "Прогресс по темам",
-                      style: textThemes.headlineMedium,
-                    ),
+                    Text("Прогресс по темам", style: textThemes.headlineMedium),
                     const SizedBox(height: 10),
                     if (solvedData.isEmpty)
-                      const Center(
-                        child: Text("Нет данных по темам"),
-                      )
+                      const Center(child: Text("Нет данных по темам"))
                     else
-                      ...buildSubjectTables(solvedData, textThemes, buildTableCell, colors),
+                      ...buildSubjectTables(
+                        solvedData,
+                        textThemes,
+                        buildTableCell,
+                        colors,
+                      ),
                   ],
                 ),
               );
@@ -224,13 +244,13 @@ class ProfilePageState extends State<ProfilePage> {
 }
 
 List<Widget> buildSubjectTables(
-  Map<String, dynamic> data, 
+  Map<String, dynamic> data,
   TextTheme textThemes,
   Widget Function(String, TextTheme, {bool isData}) buildTableCell,
-  ColorScheme colors
+  ColorScheme colors,
 ) {
   List<Widget> tables = [];
-  
+
   data.forEach((subject, topics) {
     if (topics is Map && topics.isNotEmpty) {
       tables.add(
@@ -253,10 +273,7 @@ List<Widget> buildSubjectTables(
                     topRight: Radius.circular(8),
                   ),
                 ),
-                child: Text(
-                  subject,
-                  style: textThemes.titleLarge,
-                ),
+                child: Text(subject, style: textThemes.titleLarge),
               ),
               Table(
                 border: TableBorder.all(),
@@ -267,9 +284,7 @@ List<Widget> buildSubjectTables(
                 },
                 children: [
                   TableRow(
-                    decoration: BoxDecoration(
-                      color: colors.surface,
-                    ),
+                    decoration: BoxDecoration(color: colors.surface),
                     children: [
                       buildTableCell("Тема", textThemes),
                       buildTableCell("Решено верно", textThemes),
@@ -285,26 +300,26 @@ List<Widget> buildSubjectTables(
       );
     }
   });
-  
+
   return tables;
 }
 
-List<TableRow> buildTopicRows(Map<dynamic, dynamic> topics, TextTheme textThemes) {
+List<TableRow> buildTopicRows(
+  Map<dynamic, dynamic> topics,
+  TextTheme textThemes,
+) {
   List<TableRow> rows = [];
-  
+
   topics.forEach((topic, stats) {
     int solved = stats['solved'] ?? -1;
-    int total = stats['total'] ?? -1 ;
-    
+    int total = stats['total'] ?? -1;
+
     rows.add(
       TableRow(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              topic,
-              style: textThemes.bodyMedium,
-            ),
+            child: Text(topic, style: textThemes.bodyMedium),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -326,6 +341,6 @@ List<TableRow> buildTopicRows(Map<dynamic, dynamic> topics, TextTheme textThemes
       ),
     );
   });
-  
+
   return rows;
 }
