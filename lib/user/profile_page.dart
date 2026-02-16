@@ -126,7 +126,6 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    // Статистика пользователя
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(),
@@ -165,7 +164,6 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // График рейтинга
                     Container(
                       height: 200,
                       padding: const EdgeInsets.all(8),
@@ -203,13 +201,11 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Заголовок секции прогресса
                     Text(
                       "Прогресс по темам",
                       style: textThemes.headlineMedium,
                     ),
                     const SizedBox(height: 10),
-                    // Таблицы с прогрессом по темам
                     if (solvedData.isEmpty)
                       const Center(
                         child: Text("Нет данных по темам"),
@@ -227,7 +223,6 @@ class ProfilePageState extends State<ProfilePage> {
   }
 }
 
-// Функция для построения таблиц по предметам
 List<Widget> buildSubjectTables(
   Map<String, dynamic> data, 
   TextTheme textThemes,
@@ -248,7 +243,6 @@ List<Widget> buildSubjectTables(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Заголовок предмета
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -264,7 +258,6 @@ List<Widget> buildSubjectTables(
                   style: textThemes.titleLarge,
                 ),
               ),
-              // Таблица с темами
               Table(
                 border: TableBorder.all(),
                 columnWidths: const {
@@ -273,7 +266,6 @@ List<Widget> buildSubjectTables(
                   2: FlexColumnWidth(1),
                 },
                 children: [
-                  // Заголовки таблицы
                   TableRow(
                     decoration: BoxDecoration(
                       color: colors.surface,
@@ -284,7 +276,6 @@ List<Widget> buildSubjectTables(
                       buildTableCell("Всего", textThemes),
                     ],
                   ),
-                  // Строки с темами
                   ...buildTopicRows(topics, textThemes),
                 ],
               ),
@@ -298,18 +289,16 @@ List<Widget> buildSubjectTables(
   return tables;
 }
 
-// Функция для построения строк тем
 List<TableRow> buildTopicRows(Map<dynamic, dynamic> topics, TextTheme textThemes) {
   List<TableRow> rows = [];
   
   topics.forEach((topic, stats) {
-    int solved = stats['solved'] ?? 0;
-    int total = stats['total'] ?? 0;
+    int solved = stats['solved'] ?? -1;
+    int total = stats['total'] ?? -1 ;
     
     rows.add(
       TableRow(
         children: [
-          // Название темы
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -317,7 +306,6 @@ List<TableRow> buildTopicRows(Map<dynamic, dynamic> topics, TextTheme textThemes
               style: textThemes.bodyMedium,
             ),
           ),
-          // Количество решенных
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -326,7 +314,6 @@ List<TableRow> buildTopicRows(Map<dynamic, dynamic> topics, TextTheme textThemes
               textAlign: TextAlign.center,
             ),
           ),
-          // Всего задач
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
