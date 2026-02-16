@@ -6,7 +6,6 @@ import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/localstorage.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
 
-
 class AdminRegistrationPage extends StatefulWidget {
   const AdminRegistrationPage({super.key});
 
@@ -37,67 +36,43 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
               "Регистрация для администратора",
               style: textThemes.titleLarge,
             ),
-            Expanded(flex: 2, child: Container()),
-            Text("Имя пользователя", style: textThemes.bodyMedium),
-            Flexible(
-              flex: 2,
-              child: Row(
-                children: [
-                  Flexible(flex: 2, child: Container()),
-                  Flexible(
-                    flex: 1,
-                    child: TextFormField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
+            Column(children: [
+            Text("Имя администратора", style: textThemes.bodyMedium),
+            SizedBox(
+              width: 380,
+              child: TextFormField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
                   ),
-                  Flexible(flex: 2, child: Container()),
-                ],
+                ),
               ),
-            ),
+            ),]),
+            Column(children: [
             Text("Пароль", style: textThemes.bodyMedium),
-
-            Flexible(
-              flex: 2,
-              child: Row(
-                children: [
-                  Flexible(flex: 2, child: Container()),
-                  Flexible(
-                    flex: 1,
-                    child: TextFormField(
-                      controller: passwordController,
-                      obscureText: obscureText,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: icon,
-                          onPressed: () {
-                            setState(() {
-                              obscureText = !obscureText;
-                            });
-                          },
-                        ),
-                        border: const UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
+            SizedBox(
+              width: 380,
+              child: TextFormField(
+                controller: passwordController,
+                obscureText: obscureText,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: icon,
+                    onPressed: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
                   ),
-                  Flexible(flex: 2, child: Container()),
-                ],
+                  border: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                  ),
+                ),
               ),
-            ),
+            ),]),
             button(
-              Text("Зарегистроваться", style: textThemes.bodyMedium),
+              Text("Зарегистроваться", style: textThemes.bodyLarge),
               () async {
                 String username = usernameController.text;
                 String password = passwordController.text;
@@ -119,33 +94,29 @@ class _AdminRegistrationPageState extends State<AdminRegistrationPage> {
                         reverseTransitionDuration: Duration.zero,
                       ),
                     );
-                  } else {  
+                  } else {
                     showIncorrectDataAlert(
-                        context,
-                        const Text(
-                            "Пользователь с таким именем уже существует"));
+                      context,
+                      const Text("Пользователь с таким именем уже существует"),
+                    );
                   }
                 });
               },
             ),
-            Flexible(
-              flex: 5,
-              child: InkWell(
-                child: Text("Уже есть аккаунт?", style: textThemes.bodyLarge),
-                onTap: () => {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          const LoginPage(),
-                      transitionDuration: Duration.zero,
-                      reverseTransitionDuration: Duration.zero,
-                    ),
+            InkWell(
+              child: Text("Уже есть аккаунт?", style: textThemes.bodyLarge),
+              onTap: () => {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        const LoginPage(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
                   ),
-                },
-              ),
+                ),
+              },
             ),
-            Flexible(flex: 2, child: Container()),
           ],
         ),
       ),

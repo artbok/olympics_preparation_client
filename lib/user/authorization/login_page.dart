@@ -33,9 +33,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text("Авторизация", style: textThemes.titleLarge),
+            Column(children: [
             Text("Имя пользователя", style: textThemes.bodyMedium),
             SizedBox(
-              width: 300,
+              width: 380,
               child: TextFormField(
                 controller: usernameController,
                 decoration: const InputDecoration(
@@ -44,11 +45,11 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
+            )]),
+            Column(children: [
             Text("Пароль", style: textThemes.bodyMedium),
-            // Container(),
             SizedBox(
-              width: 300,
+              width: 380,
               child: TextFormField(
                 controller: passwordController,
                 obscureText: obscureText,
@@ -66,8 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
-            // Container(),
+            )]),
             button(Text("Войти", style: textThemes.bodyLarge), () async {
               String username = usernameController.text;
               String password = passwordController.text;
