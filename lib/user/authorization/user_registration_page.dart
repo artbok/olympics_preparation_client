@@ -33,41 +33,47 @@ class _RegistrationPageState extends State<RegistrationPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text("Регистрация", style: textThemes.titleLarge),
-            Column(children: [
-            Text("Имя пользователя", style: textThemes.bodyMedium),
-            SizedBox(
-              width: 380,
-              child: TextFormField(
-                controller: usernameController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+            Column(
+              children: [
+                Text("Имя пользователя", style: textThemes.bodyMedium),
+                SizedBox(
+                  width: 380,
+                  child: TextFormField(
+                    controller: usernameController,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            )]),
-            Column(children: [
-            Text("Пароль", style: textThemes.bodyMedium),
-            SizedBox(
-              width: 380,
-              child: TextFormField(
-                controller: passwordController,
-                obscureText: obscureText,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon: icon,
-                    onPressed: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                      });
-                    },
-                  ),
-                  border: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+              ],
+            ),
+            Column(
+              children: [
+                Text("Пароль", style: textThemes.bodyMedium),
+                SizedBox(
+                  width: 380,
+                  child: TextFormField(
+                    controller: passwordController,
+                    obscureText: obscureText,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: icon,
+                        onPressed: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                      ),
+                      border: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            )]),
+              ],
+            ),
             button(
               Text("Зарегистрироваться", style: textThemes.bodyLarge),
               () async {
@@ -137,7 +143,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                 ),
-            ],)
+              ],
+            ),
           ],
         ),
       ),

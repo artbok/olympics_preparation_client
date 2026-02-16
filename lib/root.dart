@@ -136,7 +136,7 @@ class Root extends StatelessWidget {
                 }
               },
             )
-          : LoginPage(), 
+          : LoginPage(),
     );
   }
 }

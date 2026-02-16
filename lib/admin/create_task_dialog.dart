@@ -11,7 +11,7 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
   TextEditingController answerController = TextEditingController();
   TextEditingController explanationController = TextEditingController();
   TextEditingController hintController = TextEditingController();
-  
+
   String selectedDifficulty = 'Простой';
 
   final textTheme = Theme.of(context).textTheme;
@@ -25,15 +25,15 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
         child: StatefulBuilder(
           builder: (context, setState) {
             return SingleChildScrollView(
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Новая задача", style: textTheme.titleLarge),
-                  const SizedBox(height: 20),
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Новая задача", style: textTheme.titleLarge),
+                    const SizedBox(height: 20),
 
-                  DropdownButtonFormField<String>(
+                    DropdownButtonFormField<String>(
                       value: selectedDifficulty,
                       decoration: const InputDecoration(
                         labelText: "Сложность",
@@ -52,110 +52,120 @@ void createTaskDialog(BuildContext context, VoidCallback refreshPage) {
                       },
                     ),
                     const SizedBox(height: 20),
-                    
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: subjectController,
-                              decoration: InputDecoration(
-                                labelText: "Предмет",
-                                border: OutlineInputBorder(),
-                              ),
-                              maxLines: 1,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: subjectController,
+                            decoration: InputDecoration(
+                              labelText: "Предмет",
+                              border: OutlineInputBorder(),
                             ),
+                            maxLines: 1,
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextFormField(
-                              controller: topicController,
-                              decoration: InputDecoration(
-                                labelText: "Тема",
-                                border: OutlineInputBorder(),
-                              ),
-                              maxLines: 1,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextFormField(
+                            controller: topicController,
+                            decoration: InputDecoration(
+                              labelText: "Тема",
+                              border: OutlineInputBorder(),
                             ),
+                            maxLines: 1,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
 
                     TextFormField(
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                          labelText: "Описание",
-                          border: OutlineInputBorder(),
-                        ),
-                        maxLines: 3,
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        labelText: "Описание",
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 20),
-
-                      
-                      TextFormField(
-                        controller: answerController,
-                        decoration: InputDecoration(
-                          labelText: "Ответ",
-                          border: OutlineInputBorder(),
-                        ),
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 20),
-                    
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 20),
 
                     TextFormField(
-                        controller: hintController,
-                        decoration: InputDecoration(
-                          labelText: "Подсказка",
-                          labelStyle: textTheme.labelMedium,
-                          border: OutlineInputBorder(),
-                        ),
-                        maxLines: 3,
+                      controller: answerController,
+                      decoration: InputDecoration(
+                        labelText: "Ответ",
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 20),
-
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 20),
 
                     TextFormField(
-                        controller: explanationController,
-                        decoration: InputDecoration(
-                          labelText: "Объяснение",
-                          labelStyle: textTheme.labelMedium,
-                          border: OutlineInputBorder(),
-                        ),
-                        maxLines: 3,
+                      controller: hintController,
+                      decoration: InputDecoration(
+                        labelText: "Подсказка",
+                        labelStyle: textTheme.labelMedium,
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 20),
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 20),
 
-                    
+                    TextFormField(
+                      controller: explanationController,
+                      decoration: InputDecoration(
+                        labelText: "Объяснение",
+                        labelStyle: textTheme.labelMedium,
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 20),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                      ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Отмена',
-                        style: TextStyle(color: Colors.white),
-                      ),),
-                      ElevatedButton(
-                      onPressed: () {
-                        if (descriptionController.text.isNotEmpty && subjectController.text.isNotEmpty && hintController.text.isNotEmpty && answerController.text.isNotEmpty && explanationController.text.isNotEmpty && topicController.text.isNotEmpty) {
-                          createTask(descriptionController.text, subjectController.text, selectedDifficulty, hintController.text, answerController.text, explanationController.text, topicController.text);
-                          Navigator.pop(context);
-                          refreshPage();
-                        } else {showIncorrectDataAlert(context);}
-                      },
-                      child: const Text(
-                        'Сохранить',
-                        style: TextStyle(color: Colors.white),
-                      ),),
-                      
-                      ]
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Отмена',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (descriptionController.text.isNotEmpty &&
+                                subjectController.text.isNotEmpty &&
+                                hintController.text.isNotEmpty &&
+                                answerController.text.isNotEmpty &&
+                                explanationController.text.isNotEmpty &&
+                                topicController.text.isNotEmpty) {
+                              createTask(
+                                descriptionController.text,
+                                subjectController.text,
+                                selectedDifficulty,
+                                hintController.text,
+                                answerController.text,
+                                explanationController.text,
+                                topicController.text,
+                              );
+                              Navigator.pop(context);
+                              refreshPage();
+                            } else {
+                              showIncorrectDataAlert(context);
+                            }
+                          },
+                          child: const Text(
+                            'Сохранить',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                ]
-                )
-            ),
+                  ],
+                ),
+              ),
             );
           },
         ),

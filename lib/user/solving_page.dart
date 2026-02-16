@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:olympics_preparation_client/widgets/change_task_activity.dart';
+import 'package:olympics_preparation_client/requests/change_task_activity.dart';
 
 class SolvePage extends StatefulWidget {
   final int id;
@@ -67,7 +67,7 @@ class _SolvePage extends State<SolvePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Задание #${widget.id}')),
-      body: ListView( 
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           Container(
@@ -198,7 +198,10 @@ class _SolvePage extends State<SolvePage> {
               ),
               child: Text(
                 buttonText,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -215,9 +218,7 @@ class _SolvePage extends State<SolvePage> {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      _showExplanation
-                          ? 'Скрыть решение'
-                          : 'Показать решение',
+                      _showExplanation ? 'Скрыть решение' : 'Показать решение',
                       style: const TextStyle(
                         color: Colors.amber,
                         fontWeight: FontWeight.w500,

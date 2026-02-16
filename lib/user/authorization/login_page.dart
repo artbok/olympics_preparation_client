@@ -7,7 +7,6 @@ import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 import 'package:olympics_preparation_client/widgets/button.dart';
 import 'package:olympics_preparation_client/widgets/show_alert.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -33,41 +32,47 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text("Авторизация", style: textThemes.titleLarge),
-            Column(children: [
-            Text("Имя пользователя", style: textThemes.bodyMedium),
-            SizedBox(
-              width: 380,
-              child: TextFormField(
-                controller: usernameController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+            Column(
+              children: [
+                Text("Имя пользователя", style: textThemes.bodyMedium),
+                SizedBox(
+                  width: 380,
+                  child: TextFormField(
+                    controller: usernameController,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            )]),
-            Column(children: [
-            Text("Пароль", style: textThemes.bodyMedium),
-            SizedBox(
-              width: 380,
-              child: TextFormField(
-                controller: passwordController,
-                obscureText: obscureText,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon: icon,
-                    onPressed: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                      });
-                    },
-                  ),
-                  border: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+              ],
+            ),
+            Column(
+              children: [
+                Text("Пароль", style: textThemes.bodyMedium),
+                SizedBox(
+                  width: 380,
+                  child: TextFormField(
+                    controller: passwordController,
+                    obscureText: obscureText,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: icon,
+                        onPressed: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                      ),
+                      border: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            )]),
+              ],
+            ),
             button(Text("Войти", style: textThemes.bodyLarge), () async {
               String username = usernameController.text;
               String password = passwordController.text;

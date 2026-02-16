@@ -69,10 +69,7 @@ class _UserTasksPage extends State<UserTasksPage> {
                     softWrap: true,
                   ),
                 ),
-                Text(status,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                  ),
+                Text(status, overflow: TextOverflow.ellipsis, softWrap: true),
               ],
             ),
             subtitle: Row(

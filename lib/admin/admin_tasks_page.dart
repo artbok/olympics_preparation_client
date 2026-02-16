@@ -110,7 +110,7 @@ class _AdminTasksPage extends State<AdminTasksPage> {
       0,
       context,
       AppBar(
-        title: Text('Задачи', style: textThemes.titleLarge,),
+        title: Text('Задачи', style: textThemes.titleLarge),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_alt),

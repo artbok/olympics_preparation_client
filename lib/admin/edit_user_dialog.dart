@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:olympics_preparation_client/admin/edit_user.dart";
-import "package:olympics_preparation_client/admin/delete_user.dart";
+import "package:olympics_preparation_client/requests/edit_user.dart";
+import "package:olympics_preparation_client/requests/delete_user.dart";
 
 void changedUserDialog(
   BuildContext contex,

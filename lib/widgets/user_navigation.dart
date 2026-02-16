@@ -4,7 +4,6 @@ import 'package:olympics_preparation_client/user/user_tasks_page.dart';
 import 'package:olympics_preparation_client/user/duels/matchmaking_page.dart';
 import 'package:olympics_preparation_client/user/authorization/login_page.dart';
 
-
 void _onDestinationSelected(BuildContext context, int index) {
   Widget? page;
   switch (index) {

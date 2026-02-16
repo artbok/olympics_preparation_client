@@ -11,9 +11,7 @@ Future<Map<String, dynamic>> editTaskActivity(int taskId, String status) async {
     "username": username,
     "password": password,
   };
-  final Uri url = Uri.parse(
-    '${getValue("serverAddress")}/editTaskActivity',
-  );
+  final Uri url = Uri.parse('${getValue("serverAddress")}/editTaskActivity');
   final response = await http.post(
     url,
     headers: <String, String>{'Content-Type': 'application/json'},

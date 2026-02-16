@@ -14,7 +14,8 @@ void changedDialog(
   String answer,
   String explanation,
   String topic,
-  VoidCallback refreshPage) {
+  VoidCallback refreshPage,
+) {
   final colors = Theme.of(context).colorScheme;
   final TextEditingController descriptionController = TextEditingController(
     text: description,
@@ -56,58 +57,58 @@ void changedDialog(
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Container(height: 40),
-                
+
                 StatefulBuilder(
-                  builder: (context, setState) {               
+                  builder: (context, setState) {
                     return DropdownButtonFormField<String>(
-                        value: selectedDifficulty,
-                        decoration: const InputDecoration(
-                          labelText: "Сложность",
+                      value: selectedDifficulty,
+                      decoration: const InputDecoration(
+                        labelText: "Сложность",
+                        border: OutlineInputBorder(),
+                      ),
+                      items: difficulties.map((value) {
+                        return DropdownMenuItem(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        if (newValue != null) {
+                          setState(() => selectedDifficulty = newValue);
+                        }
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: subjectController,
+                        decoration: InputDecoration(
+                          labelText: "Предмет",
                           border: OutlineInputBorder(),
                         ),
-                        items: difficulties.map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          if (newValue != null) {
-                            setState(() => selectedDifficulty = newValue);
-                          }},
-                        );
-                      }
-                    ),
-                    const SizedBox(height: 20),
-                    
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: subjectController,
-                              decoration: InputDecoration(
-                                labelText: "Предмет",
-                                border: OutlineInputBorder(),
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextFormField(
-                              controller: topicController,
-                              decoration: InputDecoration(
-                                labelText: "Тема",
-                                border: OutlineInputBorder(),
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
+                        maxLines: 1,
                       ),
-                      const SizedBox(height: 20),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                        controller: topicController,
+                        decoration: InputDecoration(
+                          labelText: "Тема",
+                          border: OutlineInputBorder(),
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
 
                 TextFormField(
                   controller: descriptionController,
@@ -118,7 +119,6 @@ void changedDialog(
                   maxLines: 3,
                 ),
                 const SizedBox(height: 20),
-
 
                 TextFormField(
                   controller: hintController,
@@ -138,7 +138,7 @@ void changedDialog(
                   ),
                   maxLines: 3,
                 ),
-                const SizedBox(height: 20),              
+                const SizedBox(height: 20),
 
                 TextFormField(
                   controller: explanationController,

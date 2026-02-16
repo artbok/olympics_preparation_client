@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:olympics_preparation_client/user/solving_page.dart'; 
-
+import 'package:olympics_preparation_client/user/solving_page.dart';
 
 void showAiPromptDialog(BuildContext context) {
   showDialog(
@@ -114,7 +113,7 @@ class _AiGenerationDialogState extends State<AiGenerationDialog> {
               ),
       ),
       actions: loading
-          ? [] 
+          ? []
           : [
               TextButton(
                 onPressed: () => Navigator.pop(context),
