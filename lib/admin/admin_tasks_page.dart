@@ -105,10 +105,12 @@ class _AdminTasksPage extends State<AdminTasksPage> {
   Widget build(BuildContext context) {
     final username = getValue("username");
     final password = getValue("password");
+    final textThemes = Theme.of(context).textTheme;
     return scaffoldWithAdminNavigation(
       0,
       context,
       AppBar(
+        title: Text('Задачи', style: textThemes.titleLarge,),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_alt),

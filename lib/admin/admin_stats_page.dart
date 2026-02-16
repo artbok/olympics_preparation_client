@@ -11,6 +11,10 @@ class AdminStatsPage extends StatefulWidget {
 }
 
 class _AdminStatsPageState extends State<AdminStatsPage> {
+  List<Map<String, dynamic>> users = [];
+  bool isLoading = true;
+  String error = '';
+  
   @override
   Widget build(BuildContext context) {
     return scaffoldWithAdminNavigation(
