@@ -14,7 +14,7 @@ class _AdminStatsPageState extends State<AdminStatsPage> {
   List<Map<String, dynamic>> users = [];
   bool isLoading = true;
   String error = '';
-
+  
   @override
   void initState() {
     super.initState();
@@ -85,11 +85,12 @@ class _AdminStatsPageState extends State<AdminStatsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textThemes = Theme.of(context).textTheme;
     return scaffoldWithAdminNavigation(
       1,
       context,
       AppBar(
-        title: const Text('Статистика пользователей'),
+        title: Text('Статистика пользователей', style: textThemes.titleLarge,),
         actions: [
         ],
       ),

@@ -134,7 +134,7 @@ class _UploadPageState extends State<UploadPage> {
       2, 
       context,
       AppBar(
-        title: const Text('Загрузчик задач'),
+        title: Text('Загрузчик задач', style: textThemes.titleLarge),
         titleTextStyle: textThemes.bodyLarge,
       ),
       Center(
